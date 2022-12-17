@@ -1,0 +1,74 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 20
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "displayName": "Configure preset using toolchain file",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/.out/build/${presetName}",
+            "architecture": {
+                "strategy": "external",
+                "value": "x64"
+            },
+            "toolset": {
+                "strategy": "external",
+                "value": "host=x64"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/.out/install/${presetName}",
+                "CPACK_PACKAGE_DIRECTORY": "${sourceDir}/.out/pack/${presetName}"
+            }
+        },
+        {
+            "name": "msvc x64 release",
+            "inherits": [
+                "base"
+            ],
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl",
+                "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+            }
+        },
+        {
+            "name": "mingw x64 release",
+            "inherits": [
+                "base"
+            ],
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "msvc x64 release",
+            "configurePreset": "msvc x64 release",
+            "configuration": "Release"
+        },
+        {
+            "name": "mingw x64 release",
+            "configurePreset": "mingw x64 release",
+            "configuration": "Release"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "msvc x64 release",
+            "configurePreset": "msvc x64 release",
+            "configuration": "Release"
+        },
+        {
+            "name": "mingw x64 release",
+            "configurePreset": "mingw x64 release",
+            "configuration": "Release"
+        }
+    ]
+}

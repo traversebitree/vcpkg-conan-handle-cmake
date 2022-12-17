@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+project(app VERSION 1.2.3)
+enable_language(CXX)
+set(CMAKE_CXX_STANDARD 23)
+enable_testing()
+include(GNUInstallDirs)
