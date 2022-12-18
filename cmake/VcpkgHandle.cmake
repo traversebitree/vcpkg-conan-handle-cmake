@@ -31,7 +31,7 @@ include(FetchContent)
 FetchContent_Declare(
     vcpkg
     GIT_REPOSITORY "${PROXY_PREPEND}https://github.com/microsoft/vcpkg.git"
-    GIT_TAG 2022.11.14
+    # GIT_TAG 2022.11.14
 )
 FetchContent_MakeAvailable(vcpkg)
 
