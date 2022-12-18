@@ -41,12 +41,12 @@ if("${USE_PROXY}")
     if("${PROJ_OS_WINDOWS}")
         set(VCPKG_BOOTSTRAP_SCRIPT "${vcpkg_SOURCE_DIR}/scripts/bootstrap.ps1")
         set(VCPKG_EXECUTEABLE "${vcpkg_SOURCE_DIR}/vcpkg.exe")
-        file(READ ${VCPKG_BOOTSTRAP_SCRIPT} TEMP_FILE_STRING)
+        file(READ "${VCPKG_BOOTSTRAP_SCRIPT}" TEMP_FILE_STRING)
         string(REGEX REPLACE "github\\.com \"" "${PROXY_DOMAIN} \"/github.com" TEMP_FILE_STRING "${TEMP_FILE_STRING}")
     elseif("${PROJ_OS_LINUX}")
         set(VCPKG_BOOTSTRAP_SCRIPT "${vcpkg_SOURCE_DIR}/scripts/bootstrap.sh")
         set(VCPKG_EXECUTEABLE "${vcpkg_SOURCE_DIR}/vcpkg")
-        file(READ ${VCPKG_BOOTSTRAP_SCRIPT} TEMP_FILE_STRING)
+        file(READ "${VCPKG_BOOTSTRAP_SCRIPT}" TEMP_FILE_STRING)
         string(REGEX REPLACE "https://github\\.com" "${PROXY_PREPEND}github.com" TEMP_FILE_STRING "${TEMP_FILE_STRING}")
     endif()
 
@@ -59,7 +59,7 @@ if("${PROJ_OS_WINDOWS}" AND NOT EXISTS "${VCPKG_EXECUTEABLE}")
         OUTPUT_QUIET
     )
 elseif("${PROJ_OS_LINUX}" AND NOT EXISTS "${VCPKG_EXECUTEABLE}")
-    execute_process(COMMAND ".\\bootstrap-vcpkg.sh"
+    execute_process(COMMAND "./bootstrap-vcpkg.sh"
         WORKING_DIRECTORY "${vcpkg_SOURCE_DIR}"
         OUTPUT_QUIET
     )
