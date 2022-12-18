@@ -37,7 +37,7 @@ if("${GIT_STATUS}" STREQUAL "")
     execute_process(COMMAND "git" "restore" "." WORKING_DIRECTORY "${vcpkg_SOURCE_DIR}")
 endif()
 
-if(USE_PROXY)
+if("${USE_PROXY}")
     if("${PROJ_OS_WINDOWS}")
         set(VCPKG_BOOTSTRAP_SCRIPT "${vcpkg_SOURCE_DIR}/scripts/bootstrap.ps1")
         set(VCPKG_EXECUTEABLE "${vcpkg_SOURCE_DIR}/vcpkg.exe")
