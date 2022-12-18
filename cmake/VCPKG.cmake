@@ -69,4 +69,3 @@ if(EXISTS "${VCPKG_EXECUTEABLE}")
 else()
     set(VCPKG_EXECUTEABLE_FOUND FALSE)
 endif()
-
