@@ -1,5 +1,3 @@
-# vcpkg-handle-cmake
-
 ## DESCRIPTION
 Use a cmake module to download and handle vcpkg for package management.
 
