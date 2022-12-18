@@ -14,6 +14,8 @@ Use a cmake module to download and handle vcpkg for package management.
 ### For test
 You can use the following command to test in this repo.
 ```sh
+git clone https://github.com/traversebitree/vcpkg-handle-cmake.git
+cd vcpkg-handle-cmake
 # FOR MINGW
 cmake --preset="mingw x64 release"
 # OR FOR MSVC
