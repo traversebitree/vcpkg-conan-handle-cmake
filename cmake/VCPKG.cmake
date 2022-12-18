@@ -6,11 +6,11 @@ endif()
 
 set(TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
 execute_process(COMMAND "nslookup" "github.com" OUTPUT_FILE "${TEMP_FILE}" OUTPUT_QUIET)
-file(STRINGS "${TEMP_FILE}" TEMP_FILE_STRING)
+file(READ "${TEMP_FILE}" TEMP_FILE_STRING OFFSET 80)
 string(REGEX MATCH [[([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)]] GITHUB_IP_ADDRESS "${TEMP_FILE_STRING}")
 set(GITHUB_IP_ADDRESS "${CMAKE_MATCH_${CMAKE_MATCH_COUNT}}")
-# message(STATUS ${GITHUB_IP_ADDRESS})
-
+message(STATUS ${GITHUB_IP_ADDRESS})
+message(FATAL_ERROR)
 execute_process(COMMAND "curl" "-G" "-s" "ipinfo.io/${GITHUB_IP_ADDRESS}/country" OUTPUT_FILE "${TEMP_FILE}" OUTPUT_QUIET)
 file(STRINGS "${TEMP_FILE}" GITHUB_IP_COUNTRY)
 
