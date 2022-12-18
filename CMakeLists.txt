@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 23)
 enable_testing()
 include(GNUInstallDirs)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include(VCPKG)
+include(VcpkgHandle)
 
 message(STATUS "VCPKG_EXECUTEABLE: ${VCPKG_EXECUTEABLE}")
 message(STATUS "VCPKG_EXECUTEABLE_FOUND: ${VCPKG_EXECUTEABLE_FOUND}")
