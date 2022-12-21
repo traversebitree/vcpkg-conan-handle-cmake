@@ -31,7 +31,6 @@ include(FetchContent)
 FetchContent_Declare(
     vcpkg
     GIT_REPOSITORY "${PROXY_PREPEND}https://github.com/microsoft/vcpkg.git"
-    # GIT_TAG 2022.11.14
 )
 FetchContent_MakeAvailable(vcpkg)
 
@@ -120,9 +119,11 @@ macro(AddLibraryFromVcpkg pkg_name static)
         set(${pkg_name}_STATIC FALSE)
     endif()
 
-    execute_process(COMMAND "${VCPKG_EXECUTEABLE}" "install" "${pkg_name}:${${pkg_name}_TRIPLET}" OUTPUT_QUIET)
-
     set(${pkg_name}_PACKAGE_CONFIG_PATH "${vcpkg_SOURCE_DIR}/installed/${${pkg_name}_TRIPLET}/share/${pkg_name}")
+
+    if(NOT EXISTS "${${pkg_name}_PACKAGE_CONFIG_PATH}")
+        execute_process(COMMAND "${VCPKG_EXECUTEABLE}" "install" "${pkg_name}:${${pkg_name}_TRIPLET}" OUTPUT_QUIET)
+    endif()
 
     if(EXISTS "${${pkg_name}_PACKAGE_CONFIG_PATH}")
         list(APPEND CMAKE_PREFIX_PATH "${${pkg_name}_PACKAGE_CONFIG_PATH}")
