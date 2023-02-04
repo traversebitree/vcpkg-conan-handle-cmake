@@ -1,35 +1,85 @@
 {
-    "version": 5,
+    "version": 6,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 24
+        "minor": 25
     },
     "configurePresets": [
         {
             "name": "base",
-            "displayName": "Configure preset using toolchain file",
+            "hidden": true,
+            "displayName": "Custom configure preset",
             "description": "Sets Ninja generator, build and install directory",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/.out/build/${presetName}",
             "installDir": "${sourceDir}/.out/install/${presetName}",
-            "architecture": {
-                "strategy": "external",
-                "value": "x64"
+            "environment": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            },
+            "cacheVariables": {
+                "CPACK_PACKAGE_DIRECTORY": "${sourceDir}/.out/pack/${presetName}"
             },
             "toolset": {
                 "strategy": "external",
                 "value": "host=x64"
-            },
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CPACK_PACKAGE_DIRECTORY": "${sourceDir}/.out/pack/${presetName}"
             }
         },
         {
-            "name": "msvc x64 release",
-            "inherits": [
-                "base"
-            ],
+            "name": "debug",
+            "description": "Debug build",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release",
+            "description": "Release build",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "x64",
+            "description": "64bit build (on windows)",
+            "hidden": true,
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            }
+        },
+        {
+            "name": "x86",
+            "description": "32bit build (on windows)",
+            "hidden": true,
+            "architecture": {
+                "value": "x86",
+                "strategy": "external"
+            }
+        },
+        {
+            "name": "compiler-clang",
+            "hidden": true,
+            "description": "Use clang as the C/C++ compiler",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {
+            "name": "compiler-gcc",
+            "hidden": true,
+            "description": "Use GCC as the C/C++ compiler",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            }
+        },
+        {
+            "name": "compiler-msvc",
+            "hidden": true,
+            "description": "Use MSVC as the C/C++ compiler",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl",
                 "CMAKE_CXX_COMPILER": "cl",
@@ -37,38 +87,245 @@
             }
         },
         {
-            "name": "mingw x64 release",
+            "name": "MSVC-x86-DEV",
+            "description": "MSVC x86 debug build in a dev environment",
             "inherits": [
-                "base"
-            ],
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++"
-            }
+                "base",
+                "x86",
+                "debug",
+                "compiler-msvc"
+            ]
+        },
+        {
+            "name": "MSVC-x64-DEV",
+            "description": "MSVC x64 debug build in a dev environment",
+            "inherits": [
+                "base",
+                "x64",
+                "debug",
+                "compiler-msvc"
+            ]
+        },
+        {
+            "name": "MSVC-x86-REL",
+            "description": "MSVC x86 release build in a release environment",
+            "inherits": [
+                "base",
+                "x86",
+                "release",
+                "compiler-msvc"
+            ]
+        },
+        {
+            "name": "MSVC-x64-REL",
+            "description": "MSVC x64 release build in a release environment",
+            "inherits": [
+                "base",
+                "x64",
+                "release",
+                "compiler-msvc"
+            ]
+        },
+        {
+            "name": "GCC-x86-DEV",
+            "description": "GCC x86 debug build in a dev environment",
+            "inherits": [
+                "base",
+                "x86",
+                "debug",
+                "compiler-gcc"
+            ]
+        },
+        {
+            "name": "GCC-x64-DEV",
+            "description": "GCC x64 debug build in a dev environment",
+            "inherits": [
+                "base",
+                "x64",
+                "debug",
+                "compiler-gcc"
+            ]
+        },
+        {
+            "name": "GCC-x86-REL",
+            "description": "GCC x86 release build in a release environment",
+            "inherits": [
+                "base",
+                "x86",
+                "release",
+                "compiler-gcc"
+            ]
+        },
+        {
+            "name": "GCC-x64-REL",
+            "description": "GCC x64 release build in a release environment",
+            "inherits": [
+                "base",
+                "x64",
+                "release",
+                "compiler-gcc"
+            ]
+        },
+        {
+            "name": "CLANG-x86-DEV",
+            "description": "Clang x86 debug build in a dev environment",
+            "inherits": [
+                "base",
+                "x86",
+                "debug",
+                "compiler-clang"
+            ]
+        },
+        {
+            "name": "CLANG-x64-DEV",
+            "description": "Clang x64 debug build in a dev environment",
+            "inherits": [
+                "base",
+                "x64",
+                "debug",
+                "compiler-clang"
+            ]
+        },
+        {
+            "name": "CLANG-x86-REL",
+            "description": "Clang x86 release build in a release environment",
+            "inherits": [
+                "base",
+                "x86",
+                "release",
+                "compiler-clang"
+            ]
+        },
+        {
+            "name": "CLANG-x64-REL",
+            "description": "Clang x64 release build in a release environment",
+            "inherits": [
+                "base",
+                "x64",
+                "release",
+                "compiler-clang"
+            ]
         }
     ],
     "buildPresets": [
         {
-            "name": "msvc x64 release",
-            "configurePreset": "msvc x64 release",
-            "configuration": "Release"
+            "name": "base",
+            "jobs": 6,
+            "hidden": true
         },
         {
-            "name": "mingw x64 release",
-            "configurePreset": "mingw x64 release",
-            "configuration": "Release"
+            "name": "release",
+            "configuration": "Release",
+            "hidden": true,
+            "inherits": [
+                "base"
+            ]
+        },
+        {
+            "name": "debug",
+            "configuration": "Debug",
+            "hidden": true,
+            "inherits": [
+                "base"
+            ]
+        },
+        {
+            "name": "MSVC-x86-DEV",
+            "configurePreset": "MSVC-x86-DEV"
+        },
+        {
+            "name": "MSVC-x64-DEV",
+            "configurePreset": "MSVC-x64-DEV"
+        },
+        {
+            "name": "MSVC-x86-REL",
+            "configurePreset": "MSVC-x86-REL"
+        },
+        {
+            "name": "MSVC-x64-REL",
+            "configurePreset": "MSVC-x64-REL"
+        },
+        {
+            "name": "GCC-x86-DEV",
+            "configurePreset": "GCC-x86-DEV"
+        },
+        {
+            "name": "GCC-x64-DEV",
+            "configurePreset": "GCC-x64-DEV"
+        },
+        {
+            "name": "GCC-x86-REL",
+            "configurePreset": "GCC-x86-REL"
+        },
+        {
+            "name": "GCC-x64-REL",
+            "configurePreset": "GCC-x64-REL"
+        },
+        {
+            "name": "CLANG-x86-DEV",
+            "configurePreset": "CLANG-x86-DEV"
+        },
+        {
+            "name": "CLANG-x64-DEV",
+            "configurePreset": "CLANG-x64-DEV"
+        },
+        {
+            "name": "CLANG-x86-REL",
+            "configurePreset": "CLANG-x86-REL"
+        },
+        {
+            "name": "CLANG-x64-REL",
+            "configurePreset": "CLANG-x64-REL"
         }
     ],
     "testPresets": [
         {
-            "name": "msvc x64 release",
-            "configurePreset": "msvc x64 release",
-            "configuration": "Release"
+            "name": "MSVC-x86-DEV",
+            "configurePreset": "MSVC-x86-DEV"
         },
         {
-            "name": "mingw x64 release",
-            "configurePreset": "mingw x64 release",
-            "configuration": "Release"
+            "name": "MSVC-x64-DEV",
+            "configurePreset": "MSVC-x64-DEV"
+        },
+        {
+            "name": "MSVC-x86-REL",
+            "configurePreset": "MSVC-x86-REL"
+        },
+        {
+            "name": "MSVC-x64-REL",
+            "configurePreset": "MSVC-x64-REL"
+        },
+        {
+            "name": "GCC-x86-DEV",
+            "configurePreset": "GCC-x86-DEV"
+        },
+        {
+            "name": "GCC-x64-DEV",
+            "configurePreset": "GCC-x64-DEV"
+        },
+        {
+            "name": "GCC-x86-REL",
+            "configurePreset": "GCC-x86-REL"
+        },
+        {
+            "name": "GCC-x64-REL",
+            "configurePreset": "GCC-x64-REL"
+        },
+        {
+            "name": "CLANG-x86-DEV",
+            "configurePreset": "CLANG-x86-DEV"
+        },
+        {
+            "name": "CLANG-x64-DEV",
+            "configurePreset": "CLANG-x64-DEV"
+        },
+        {
+            "name": "CLANG-x86-REL",
+            "configurePreset": "CLANG-x86-REL"
+        },
+        {
+            "name": "CLANG-x64-REL",
+            "configurePreset": "CLANG-x64-REL"
         }
     ]
 }

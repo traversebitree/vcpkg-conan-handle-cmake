@@ -1,0 +1,9 @@
+BasedOnStyle: Microsoft
+ColumnLimit: 140
+UseTab: ForContinuationAndIndentation
+IndentWidth: 4
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+NamespaceIndentation: All
+SortIncludes: Never

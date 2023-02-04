@@ -1,0 +1,16 @@
+---
+Checks: "
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  -*,
+  cppcoreguidelines-pro-type-member-init,
+  modernize-redundant-void-arg,modernize-use-bool-literals,
+  modernize-use-default-member-init,
+  modernize-use-nullptr,
+  readability-braces-around-statements,
+  readability-redundant-member-init,
+  readability-identifier-naming"
+WarningsAsErrors: ""
+HeaderFilterRegex: ""
+AnalyzeTemporaryDtors: false
+FormatStyle: none
