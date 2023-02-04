@@ -11,7 +11,7 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 endif()
 
 set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
-
+message(STATUS "Fetching vcpkg ...")
 include(FetchContent)
 FetchContent_Declare(
     _vcpkg
