@@ -11,8 +11,9 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 endif()
 
 set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
-message(STATUS "Fetching vcpkg ...")
+
 include(FetchContent)
+message(STATUS "Fetching vcpkg ...")
 FetchContent_Declare(
     _vcpkg
     GIT_REPOSITORY "https://github.com/microsoft/vcpkg.git"
