@@ -64,7 +64,7 @@ else()
     message(FATAL_ERROR "VCPKG_EXECUTEABLE_FOUND: ${_VCPKG_EXECUTEABLE_FOUND}")
 endif()
 
-macro(AddLibraryFromVcpkg pkg_name static)
+macro(AddLibraryFromVcpkg pkg_name b_static)
     #[[
         Triplet have these catogaries:
         x64-windows (for MSVC dynamic)
@@ -74,6 +74,8 @@ macro(AddLibraryFromVcpkg pkg_name static)
         x64-mingw-dynamic (for windows MinGW dynamic)
         x64-mingw-static (for windows MinGW static)
     ]]
+    message(STATUS "Adding: ${pkg_name} ...")
+
     if("${_PROJ_OS_WINDOWS}")
         if("${_PROJ_COMPILER_MSVC}")
             if("${static}")
@@ -113,4 +115,6 @@ macro(AddLibraryFromVcpkg pkg_name static)
     else()
         message(FATAL_ERROR "Package: ${pkg_name} NOT FOUND!")
     endif()
+
+    message(STATUS "Added: ${pkg_name} .")
 endmacro()
