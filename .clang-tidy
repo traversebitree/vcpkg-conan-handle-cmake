@@ -1,16 +1,65 @@
 ---
-Checks: "
+Checks: >
+  -*,
+  bugprone-*,
   clang-diagnostic-*,
   clang-analyzer-*,
-  -*,
+  cppcoreguidelines-avoid-goto,
+  cppcoreguidelines-init-variables,
+  cppcoreguidelines-interfaces-global-init,
+  cppcoreguidelines-no-malloc,
+  cppcoreguidelines-prefer-member-initializer,
   cppcoreguidelines-pro-type-member-init,
-  modernize-redundant-void-arg,modernize-use-bool-literals,
-  modernize-use-default-member-init,
+  cppcoreguidelines-pro-type-static-cast-downcast,
+  cppcoreguidelines-slicing,
+  cppcoreguidelines-special-member-functions,
+  google-default-arguments,
+  google-global-names-in-headers,
+  google-explicit-constructor,
+  modernize-redundant-*,
+  modernize-use-default-*,
+  modernize-use-bool-*,
   modernize-use-nullptr,
+  modernize-avoid-c-arrays,
+  performance-unnecessary-value-param,
+  performance-unnecessary-copy-initialization,
+  performance-noexcept-move-constructor,
+  performance-no-automatic-move,
+  performance-move-const-arg,
+  performance-implicit-conversion-in-loop,
+  performance-for-range-copy,
   readability-braces-around-statements,
-  readability-redundant-member-init,
-  readability-identifier-naming"
-WarningsAsErrors: ""
-HeaderFilterRegex: ""
-AnalyzeTemporaryDtors: false
-FormatStyle: none
+  readability-identifier-length,
+  readability-redundant-*,
+  readability-identifier-naming,
+  readability-uppercase-literal-suffix
+
+CheckOptions:
+  - key: cppcoreguidelines-special-member-functions.AllowMissingMoveFunctionsWhenCopyIsDeleted
+    value: True
+  - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: True
+  - key: performance-move-const-arg.CheckTriviallyCopyableMove
+    value: False
+  - key: modernize-use-nullptr.NullMacros
+    value: "NULL"
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.UnionCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+  - key: readability-identifier-naming.MemberPrefix
+    value: "m_"
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+  - key: readability-identifier-naming.ConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+UseColor: true
+
