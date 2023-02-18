@@ -1,15 +1,4 @@
-if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-    set(_PROJ_OS_WINDOWS TRUE)
-elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
-    set(_PROJ_OS_LINUX TRUE)
-endif()
-
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(_PROJ_COMPILER_MSVC TRUE)
-elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(_PROJ_COMPILER_MINGW TRUE)
-endif()
-
+# Put this before project() !!!
 set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
 
 include(FetchContent)
@@ -28,20 +17,20 @@ if("${_GIT_STATUS}" STREQUAL "")
     execute_process(COMMAND "git" "restore" "." WORKING_DIRECTORY "${_vcpkg_SOURCE_DIR}")
 endif()
 
-if("${_PROJ_OS_WINDOWS}")
+if("${WIN32}")
     set(_VCPKG_BOOTSTRAP_SCRIPT "${_vcpkg_SOURCE_DIR}/scripts/bootstrap.ps1")
     set(_VCPKG_EXECUTEABLE "${_vcpkg_SOURCE_DIR}/vcpkg.exe")
-elseif("${_PROJ_OS_LINUX}")
+elseif("${LINUX}")
     set(_VCPKG_BOOTSTRAP_SCRIPT "${_vcpkg_SOURCE_DIR}/scripts/bootstrap.sh")
     set(_VCPKG_EXECUTEABLE "${_vcpkg_SOURCE_DIR}/vcpkg")
 endif()
 
-if("${_PROJ_OS_WINDOWS}" AND NOT EXISTS "${_VCPKG_EXECUTEABLE}")
+if("${WIN32}" AND NOT EXISTS "${_VCPKG_EXECUTEABLE}")
     execute_process(COMMAND ".\\bootstrap-vcpkg.bat"
         WORKING_DIRECTORY "${_vcpkg_SOURCE_DIR}"
         OUTPUT_QUIET
     )
-elseif("${_PROJ_OS_LINUX}" AND NOT EXISTS "${_VCPKG_EXECUTEABLE}")
+elseif("${LINUX}" AND NOT EXISTS "${_VCPKG_EXECUTEABLE}")
     execute_process(COMMAND "./bootstrap-vcpkg.sh"
         WORKING_DIRECTORY "${_vcpkg_SOURCE_DIR}"
         OUTPUT_QUIET
@@ -63,6 +52,8 @@ if("${_VCPKG_EXECUTEABLE_FOUND}")
 else()
     message(FATAL_ERROR "VCPKG_EXECUTEABLE_FOUND: ${_VCPKG_EXECUTEABLE_FOUND}")
 endif()
+
+set(CMAKE_TOOLCHAIN_FILE "${_vcpkg_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake")
 
 macro(AddLibraryFromVcpkg pkg_name b_static)
     #[[
