@@ -13,6 +13,10 @@ Use a cmake module to download and handle vcpkg for package management.
 - clang++
 
 ## USAGE
+
+### NOTICE
+Put it before `project()`.
+
 ### For test
 You can use the following command to test in this repo.
 ```sh
@@ -30,12 +34,18 @@ cmake --preset="CLANG-x64-REL"
 You need put `VcpkgHandle.cmake` to your project dir, for example, `cmake\VcpkgHandle.cmake`. Then write your CMakeLists.txt like this:
 ```cmake
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
-project(app VERSION 1.2.3)
-enable_language(CXX)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(VcpkgHandle)
+set(VCPKG_TARGET_TRIPLET "x64-windows")
+
+project(app VERSION 1.2.3)
+enable_language(CXX)
+set(CMAKE_CXX_STANDARD 23)
+enable_testing()
+include(GNUInstallDirs)
+
 add_subdirectory(src)
-AddLibraryFromVcpkg(fmt TRUE)
+
 find_package(fmt CONFIG REQUIRED GLOBAL)
 ```
 
