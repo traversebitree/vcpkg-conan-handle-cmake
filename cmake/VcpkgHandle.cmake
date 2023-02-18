@@ -1,4 +1,5 @@
 # Put this before project() !!!
+include_guard(GLOBAL)
 set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
 
 include(FetchContent)
