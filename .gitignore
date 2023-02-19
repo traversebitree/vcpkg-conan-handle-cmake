@@ -37,6 +37,7 @@ cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 *.code-workspace
+.vcpkg
 
 .vscode/*
 !.vscode/extensions.json

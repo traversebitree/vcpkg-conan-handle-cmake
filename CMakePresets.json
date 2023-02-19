@@ -14,7 +14,9 @@
             "binaryDir": "${sourceDir}/.out/build/${presetName}",
             "installDir": "${sourceDir}/.out/install/${presetName}",
             "environment": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "TRUE",
+                "CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS": "TRUE",
+                "CMAKE_POSITION_INDEPENDENT_CODE": "TRUE"
             },
             "cacheVariables": {
                 "CPACK_PACKAGE_DIRECTORY": "${sourceDir}/.out/pack/${presetName}"
@@ -38,6 +40,14 @@
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "sanitize",
+            "description": "Release with debug info",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
         },
         {
@@ -82,8 +92,8 @@
             "description": "Use MSVC as the C/C++ compiler",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl",
-                "CMAKE_CXX_COMPILER": "cl",
-                "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+                "CMAKE_CXX_COMPILER": "cl"
+                // ,"CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>"
             }
         },
         {
@@ -123,6 +133,19 @@
                 "base",
                 "x64",
                 "release",
+                "compiler-msvc"
+            ]
+        },
+        {
+            "name": "MSVC-x64-SANITIZE",
+            "description": "MSVC x64 release with debug info",
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "${CMAKE_CXX_FLAGS} -fsanitize=address"
+            },
+            "inherits": [
+                "base",
+                "x64",
+                "sanitize",
                 "compiler-msvc"
             ]
         },
@@ -246,6 +269,10 @@
             "configurePreset": "MSVC-x64-REL"
         },
         {
+            "name": "MSVC-x64-SANITIZE",
+            "configurePreset": "MSVC-x64-SANITIZE"
+        },
+        {
             "name": "GCC-x86-DEV",
             "configurePreset": "GCC-x86-DEV"
         },
@@ -294,6 +321,10 @@
         {
             "name": "MSVC-x64-REL",
             "configurePreset": "MSVC-x64-REL"
+        },
+        {
+            "name": "MSVC-x64-SANITIZE",
+            "configurePreset": "MSVC-x64-SANITIZE"
         },
         {
             "name": "GCC-x86-DEV",
