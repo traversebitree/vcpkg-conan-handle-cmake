@@ -26,7 +26,7 @@ cd vcpkg-handle-cmake
 cmake --preset="GCC-x64-REL"
 # OR FOR MSVC
 cmake --preset="MSVC-x64-REL"
-# OR FOR MSVC
+# OR FOR CLANG
 cmake --preset="CLANG-x64-REL"
 ```
 
