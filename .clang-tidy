@@ -9,8 +9,7 @@ Checks: >
   cppcoreguidelines-interfaces-global-init,
   cppcoreguidelines-no-malloc,
   cppcoreguidelines-prefer-member-initializer,
-  cppcoreguidelines-pro-type-member-init,
-  cppcoreguidelines-pro-type-static-cast-downcast,
+  cppcoreguidelines-pro-*,
   cppcoreguidelines-slicing,
   cppcoreguidelines-special-member-functions,
   google-default-arguments,
@@ -30,8 +29,10 @@ Checks: >
   performance-for-range-copy,
   readability-braces-around-statements,
   readability-identifier-length,
-  readability-redundant-*,
   readability-identifier-naming,
+  readability-inconsistent-declaration-parameter-name,
+  readability-isolate-declaration,
+  readability-redundant-*,
   readability-uppercase-literal-suffix
 
 CheckOptions:
@@ -55,11 +56,13 @@ CheckOptions:
     value: "m_"
   - key: readability-identifier-naming.ParameterCase
     value: lower_case
+  - key: readability-identifier-naming.ConstantParameterCase
+    value: lower_case
   - key: readability-identifier-naming.ConstantCase
     value: UPPER_CASE
   - key: readability-identifier-naming.FunctionCase
     value: lower_case
   - key: readability-identifier-naming.VariableCase
     value: lower_case
-UseColor: true
-
+  - key: readability-identifier-naming.LocalConstantCase
+    value: lower_case

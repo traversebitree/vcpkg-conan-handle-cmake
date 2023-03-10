@@ -6,10 +6,10 @@ set(_VCPKG_SOURCE_DIR "${_VCPKG_ROOT_DIR}/vcpkg-src")
 set(_VCPKG_DOWNLOAD_DIR "${_VCPKG_ROOT_DIR}")
 set(_VCPKG_BINARY_DIR "${_VCPKG_ROOT_DIR}/vcpkg-build")
 
-if("${WIN32}")
+if(WIN32)
     set(_VCPKG_BOOTSTRAP_SCRIPT "${_VCPKG_SOURCE_DIR}/scripts/bootstrap.ps1")
     set(_VCPKG_EXECUTEABLE "${_VCPKG_SOURCE_DIR}/vcpkg.exe")
-elseif("${LINUX}")
+elseif(LINUX)
     set(_VCPKG_BOOTSTRAP_SCRIPT "${_VCPKG_SOURCE_DIR}/scripts/bootstrap.sh")
     set(_VCPKG_EXECUTEABLE "${_VCPKG_SOURCE_DIR}/vcpkg")
 endif()
@@ -19,7 +19,7 @@ if(NOT EXISTS "${_VCPKG_EXECUTEABLE}")
     message(STATUS "Fetching vcpkg ...")
     FetchContent_Declare(
         _vcpkg
-        GIT_REPOSITORY "https://ghproxy.com/https://github.com/microsoft/vcpkg.git"
+        GIT_REPOSITORY "https://github.com/microsoft/vcpkg.git"
         DOWNLOAD_DIR "${_VCPKG_DOWNLOAD_DIR}"
         SOURCE_DIR "${_VCPKG_SOURCE_DIR}"
         BINARY_DIR "${_VCPKG_BINARY_DIR}"
