@@ -3,6 +3,7 @@ include_guard(GLOBAL)
 set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
 set(_VCPKG_ROOT_DIR "${CMAKE_SOURCE_DIR}/.vcpkg")
 set(_VCPKG_SOURCE_DIR "${_VCPKG_ROOT_DIR}/vcpkg-src")
+set(_VCPKG_SUBBUILD_DIR "${_VCPKG_ROOT_DIR}/vcpkg-subbuild")
 set(_VCPKG_DOWNLOAD_DIR "${_VCPKG_ROOT_DIR}")
 set(_VCPKG_BINARY_DIR "${_VCPKG_ROOT_DIR}/vcpkg-build")
 
@@ -22,6 +23,7 @@ if(NOT EXISTS "${_VCPKG_EXECUTEABLE}")
         GIT_REPOSITORY "https://github.com/microsoft/vcpkg.git"
         DOWNLOAD_DIR "${_VCPKG_DOWNLOAD_DIR}"
         SOURCE_DIR "${_VCPKG_SOURCE_DIR}"
+        SUBBUILD_DIR "${_VCPKG_SUBBUILD_DIR}"
         BINARY_DIR "${_VCPKG_BINARY_DIR}"
     )
     FetchContent_MakeAvailable(_vcpkg)
