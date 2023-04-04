@@ -10,7 +10,7 @@ Use a cmake module to download and handle vcpkg for package management.
 - CMake (version >= 3.25.0)
 - Ninja (apt install ninja-build)
 - g++ (apt install g++)
-- clang++
+- clang++ (apt install clang-14)
 
 ## USAGE
 
@@ -31,7 +31,9 @@ cmake --preset="CLANG-x64-REL"
 ```
 
 ### For usage on yourself
-You need put `VcpkgHandle.cmake` to your project dir, for example, `cmake\VcpkgHandle.cmake`. Then write your CMakeLists.txt like this:
+You need put `VcpkgHandle.cmake` to your project dir, for example, `cmake\VcpkgHandle.cmake`. Then write your `CMakeLists.txt` and `vcpkg.json` like following:
+
+_CMakeLists.txt_
 ```cmake
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -49,3 +51,13 @@ add_subdirectory(src)
 find_package(fmt CONFIG REQUIRED GLOBAL)
 ```
 
+_vcpkg.json_
+```json
+{
+    "name": "app",
+    "version-string": "0.1.0",
+    "dependencies": [
+        "fmt"
+    ]
+}
+```
