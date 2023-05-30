@@ -1,5 +1,6 @@
 # Put this before project() !!!
 include_guard(GLOBAL)
+set(X_VCPKG_APPLOCAL_DEPS_INSTALL TRUE CACHE BOOL "Automatically copy dependencies into the install target directory for executables.")
 set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
 set(_VCPKG_ROOT_DIR "${CMAKE_SOURCE_DIR}/.vcpkg")
 set(_VCPKG_SOURCE_DIR "${_VCPKG_ROOT_DIR}/vcpkg-src")
