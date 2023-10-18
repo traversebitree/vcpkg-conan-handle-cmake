@@ -11,7 +11,7 @@ set(_VCPKG_BINARY_DIR "${_VCPKG_ROOT_DIR}/vcpkg-build")
 if(WIN32)
     set(_VCPKG_BOOTSTRAP_SCRIPT "${_VCPKG_SOURCE_DIR}/scripts/bootstrap.ps1")
     set(_VCPKG_EXECUTEABLE "${_VCPKG_SOURCE_DIR}/vcpkg.exe")
-elseif(LINUX)
+elseif(UNIX)
     set(_VCPKG_BOOTSTRAP_SCRIPT "${_VCPKG_SOURCE_DIR}/scripts/bootstrap.sh")
     set(_VCPKG_EXECUTEABLE "${_VCPKG_SOURCE_DIR}/vcpkg")
 endif()
@@ -43,7 +43,7 @@ if("${WIN32}" AND NOT EXISTS "${_VCPKG_EXECUTEABLE}")
         WORKING_DIRECTORY "${_VCPKG_SOURCE_DIR}"
         OUTPUT_QUIET
     )
-elseif("${LINUX}" AND NOT EXISTS "${_VCPKG_EXECUTEABLE}")
+elseif("${UNIX}" AND NOT EXISTS "${_VCPKG_EXECUTEABLE}")
     execute_process(COMMAND "./bootstrap-vcpkg.sh"
         WORKING_DIRECTORY "${_VCPKG_SOURCE_DIR}"
         OUTPUT_QUIET
