@@ -1,5 +1,12 @@
 # Put this before project() !!!
 include_guard(GLOBAL)
+
+cmake_host_system_information(RESULT res QUERY OS_PLATFORM)
+
+if(${res} STREQUAL "aarch64")
+    set(ENV{VCPKG_FORCE_SYSTEM_BINARIES} "arm")
+endif()
+
 set(X_VCPKG_APPLOCAL_DEPS_INSTALL TRUE CACHE BOOL "Automatically copy dependencies into the install target directory for executables.")
 set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
 set(_VCPKG_ROOT_DIR "${CMAKE_SOURCE_DIR}/.vcpkg")
