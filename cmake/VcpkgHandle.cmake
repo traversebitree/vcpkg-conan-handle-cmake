@@ -22,6 +22,7 @@ elseif(UNIX)
 endif()
 
 if(NOT EXISTS "${_VCPKG_EXECUTEABLE}")
+    file(REMOVE_RECURSE "${_VCPKG_ROOT_DIR}")
     include(FetchContent)
     message(STATUS "Fetching vcpkg ...")
     FetchContent_Declare(
