@@ -36,6 +36,10 @@ if(NOT EXISTS "${_VCPKG_EXECUTEABLE}")
     FetchContent_MakeAvailable(_vcpkg)
 endif()
 
+if(CMAKE_GENERATOR MATCHES "MinGW")
+    set(VCPKG_HOST_TRIPLET "x64-mingw-dynamic")
+endif()
+
 set(VCPKG_INSTALLED_DIR "${_VCPKG_ROOT_DIR}/vcpkg-installed")
 set(Z_VCPKG_ROOT_DIR "${_VCPKG_SOURCE_DIR}")
 set(CMAKE_TOOLCHAIN_FILE "${_VCPKG_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake")
