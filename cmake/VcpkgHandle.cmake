@@ -38,6 +38,7 @@ endif()
 
 if(CMAKE_GENERATOR MATCHES "MinGW")
     set(VCPKG_HOST_TRIPLET "x64-mingw-dynamic")
+    set(MINGW TRUE)
 endif()
 
 set(VCPKG_INSTALLED_DIR "${_VCPKG_ROOT_DIR}/vcpkg-installed")
