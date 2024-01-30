@@ -4,11 +4,11 @@
     "dependencies": [
         "fmt"
     ],
-    "builtin-baseline": "e98d2f26b77e4fe616328797827e3d79f83595ff",
+    "builtin-baseline": "7dc284a6ad0b9cb8ccd618c8dc78c360fbd93b83",
     "overrides": [
         {
             "name": "fmt",
             "version": "9.1.0#1"
-        },
+        }
     ]
 }

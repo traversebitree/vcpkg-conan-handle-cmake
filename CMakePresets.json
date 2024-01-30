@@ -13,17 +13,18 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/.out/build/${presetName}",
             "installDir": "${sourceDir}/.out/install/${presetName}",
-            "environment": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "TRUE",
-                "CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS": "TRUE",
-                "CMAKE_POSITION_INDEPENDENT_CODE": "TRUE"
-            },
             "cacheVariables": {
-                "CPACK_PACKAGE_DIRECTORY": "${sourceDir}/.out/pack/${presetName}"
-            },
-            "toolset": {
-                "strategy": "external",
-                "value": "host=x64"
+                "CPACK_PACKAGE_DIRECTORY": "${sourceDir}/.out/pack/${presetName}",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true
+            }
+        },
+        {
+            "name": "ninja-generator",
+            "hidden": true,
+            "description": "Sets Ninja generator",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "ninja"
             }
         },
         {
@@ -51,24 +52,6 @@
             }
         },
         {
-            "name": "x64",
-            "description": "64bit build (on windows)",
-            "hidden": true,
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
-            }
-        },
-        {
-            "name": "x86",
-            "description": "32bit build (on windows)",
-            "hidden": true,
-            "architecture": {
-                "value": "x86",
-                "strategy": "external"
-            }
-        },
-        {
             "name": "compiler-clang",
             "hidden": true,
             "description": "Use clang as the C/C++ compiler",
@@ -93,138 +76,103 @@
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl",
                 "CMAKE_CXX_COMPILER": "cl"
-                // ,"CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>"
             }
         },
         {
-            "name": "MSVC-x86-DEV",
-            "description": "MSVC x86 debug build in a dev environment",
-            "inherits": [
-                "base",
-                "x86",
-                "debug",
-                "compiler-msvc"
-            ]
-        },
-        {
-            "name": "MSVC-x64-DEV",
-            "description": "MSVC x64 debug build in a dev environment",
-            "inherits": [
-                "base",
-                "x64",
-                "debug",
-                "compiler-msvc"
-            ]
-        },
-        {
-            "name": "MSVC-x86-REL",
-            "description": "MSVC x86 release build in a release environment",
-            "inherits": [
-                "base",
-                "x86",
-                "release",
-                "compiler-msvc"
-            ]
-        },
-        {
-            "name": "MSVC-x64-REL",
-            "description": "MSVC x64 release build in a release environment",
-            "inherits": [
-                "base",
-                "x64",
-                "release",
-                "compiler-msvc"
-            ]
-        },
-        {
-            "name": "MSVC-x64-SANITIZE",
-            "description": "MSVC x64 release with debug info",
-            "cacheVariables": {
-                "CMAKE_CXX_FLAGS": "${CMAKE_CXX_FLAGS} -fsanitize=address"
+            "name": "x64",
+            "description": "64bit build (on windows)",
+            "hidden": true,
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
             },
+            "toolset": {
+                "strategy": "external",
+                "value": "host=x64"
+            }
+        },
+        {
+            "name": "x86",
+            "description": "32bit build (on windows)",
+            "hidden": true,
+            "architecture": {
+                "value": "x86",
+                "strategy": "external"
+            },
+            "toolset": {
+                "strategy": "external",
+                "value": "host=x86"
+            }
+        },
+        {
+            "name": "MSVC-DEV",
+            "description": "MSVC debug build using Ninja-build generator",
             "inherits": [
                 "base",
-                "x64",
+                "ninja-generator",
+                "debug",
+                "compiler-msvc",
+                "x64"
+            ]
+        },
+        {
+            "name": "MSVC-REL",
+            "description": "MSVC debug build using Ninja-build generator",
+            "inherits": [
+                "base",
+                "ninja-generator",
+                "release",
+                "compiler-msvc",
+                "x64"
+            ]
+        },
+        {
+            "name": "MSVC-SANITIZE",
+            "description": "MSVC release with debug info using Ninja-build generator",
+            "inherits": [
+                "base",
+                "ninja-generator",
                 "sanitize",
-                "compiler-msvc"
+                "compiler-msvc",
+                "x64"
             ]
         },
         {
-            "name": "GCC-x86-DEV",
-            "description": "GCC x86 debug build in a dev environment",
+            "name": "GCC-DEV",
+            "description": "GCC debug build using Ninja-build generator",
             "inherits": [
                 "base",
-                "x86",
+                "ninja-generator",
                 "debug",
                 "compiler-gcc"
             ]
         },
         {
-            "name": "GCC-x64-DEV",
-            "description": "GCC x64 debug build in a dev environment",
+            "name": "GCC-REL",
+            "description": "GCC release build using Ninja-build generator",
             "inherits": [
                 "base",
-                "x64",
-                "debug",
-                "compiler-gcc"
-            ]
-        },
-        {
-            "name": "GCC-x86-REL",
-            "description": "GCC x86 release build in a release environment",
-            "inherits": [
-                "base",
-                "x86",
+                "ninja-generator",
                 "release",
                 "compiler-gcc"
             ]
         },
         {
-            "name": "GCC-x64-REL",
-            "description": "GCC x64 release build in a release environment",
+            "name": "CLANG-DEV",
+            "description": "Clang debug build using Ninja-build generator",
             "inherits": [
                 "base",
-                "x64",
-                "release",
-                "compiler-gcc"
-            ]
-        },
-        {
-            "name": "CLANG-x86-DEV",
-            "description": "Clang x86 debug build in a dev environment",
-            "inherits": [
-                "base",
-                "x86",
+                "ninja-generator",
                 "debug",
                 "compiler-clang"
             ]
         },
         {
-            "name": "CLANG-x64-DEV",
-            "description": "Clang x64 debug build in a dev environment",
+            "name": "CLANG-REL",
+            "description": "Clang release build using Ninja-build generator",
             "inherits": [
                 "base",
-                "x64",
-                "debug",
-                "compiler-clang"
-            ]
-        },
-        {
-            "name": "CLANG-x86-REL",
-            "description": "Clang x86 release build in a release environment",
-            "inherits": [
-                "base",
-                "x86",
-                "release",
-                "compiler-clang"
-            ]
-        },
-        {
-            "name": "CLANG-x64-REL",
-            "description": "Clang x64 release build in a release environment",
-            "inherits": [
-                "base",
-                "x64",
+                "ninja-generator",
                 "release",
                 "compiler-clang"
             ]
@@ -233,7 +181,7 @@
     "buildPresets": [
         {
             "name": "base",
-            "jobs": 6,
+            "cleanFirst": true,
             "hidden": true
         },
         {
@@ -253,110 +201,113 @@
             ]
         },
         {
-            "name": "MSVC-x86-DEV",
-            "configurePreset": "MSVC-x86-DEV"
+            "name": "sanitize",
+            "configuration": "RelWithDebInfo",
+            "hidden": true,
+            "inherits": [
+                "base"
+            ]
         },
         {
-            "name": "MSVC-x64-DEV",
-            "configurePreset": "MSVC-x64-DEV"
+            "name": "DEFAULT-DEV",
+            "configurePreset": "DEFAULT-DEV",
+            "inherits": [
+                "debug"
+            ]
         },
         {
-            "name": "MSVC-x86-REL",
-            "configurePreset": "MSVC-x86-REL"
+            "name": "DEFAULT-REL",
+            "configurePreset": "DEFAULT-REL",
+            "inherits": [
+                "release"
+            ]
         },
         {
-            "name": "MSVC-x64-REL",
-            "configurePreset": "MSVC-x64-REL"
+            "name": "MSVC-DEV",
+            "configurePreset": "MSVC-DEV",
+            "inherits": [
+                "debug"
+            ]
         },
         {
-            "name": "MSVC-x64-SANITIZE",
-            "configurePreset": "MSVC-x64-SANITIZE"
+            "name": "MSVC-REL",
+            "configurePreset": "MSVC-REL",
+            "inherits": [
+                "release"
+            ]
         },
         {
-            "name": "GCC-x86-DEV",
-            "configurePreset": "GCC-x86-DEV"
+            "name": "MSVC-SANITIZE",
+            "configurePreset": "MSVC-SANITIZE",
+            "inherits": [
+                "sanitize"
+            ]
         },
         {
-            "name": "GCC-x64-DEV",
-            "configurePreset": "GCC-x64-DEV"
+            "name": "GCC-DEV",
+            "configurePreset": "GCC-DEV",
+            "inherits": [
+                "debug"
+            ]
         },
         {
-            "name": "GCC-x86-REL",
-            "configurePreset": "GCC-x86-REL"
+            "name": "GCC-REL",
+            "configurePreset": "GCC-REL",
+            "inherits": [
+                "release"
+            ]
         },
         {
-            "name": "GCC-x64-REL",
-            "configurePreset": "GCC-x64-REL"
+            "name": "CLANG-DEV",
+            "configurePreset": "CLANG-DEV",
+            "inherits": [
+                "debug"
+            ]
         },
         {
-            "name": "CLANG-x86-DEV",
-            "configurePreset": "CLANG-x86-DEV"
-        },
-        {
-            "name": "CLANG-x64-DEV",
-            "configurePreset": "CLANG-x64-DEV"
-        },
-        {
-            "name": "CLANG-x86-REL",
-            "configurePreset": "CLANG-x86-REL"
-        },
-        {
-            "name": "CLANG-x64-REL",
-            "configurePreset": "CLANG-x64-REL"
+            "name": "CLANG-REL",
+            "configurePreset": "CLANG-REL",
+            "inherits": [
+                "release"
+            ]
         }
     ],
     "testPresets": [
         {
-            "name": "MSVC-x86-DEV",
-            "configurePreset": "MSVC-x86-DEV"
+            "name": "DEFAULT-DEV",
+            "configurePreset": "MSVC-DEV"
         },
         {
-            "name": "MSVC-x64-DEV",
-            "configurePreset": "MSVC-x64-DEV"
+            "name": "DEFAULT-REL",
+            "configurePreset": "MSVC-DEV"
         },
         {
-            "name": "MSVC-x86-REL",
-            "configurePreset": "MSVC-x86-REL"
+            "name": "MSVC-DEV",
+            "configurePreset": "MSVC-DEV"
         },
         {
-            "name": "MSVC-x64-REL",
-            "configurePreset": "MSVC-x64-REL"
+            "name": "MSVC-REL",
+            "configurePreset": "MSVC-REL"
         },
         {
-            "name": "MSVC-x64-SANITIZE",
-            "configurePreset": "MSVC-x64-SANITIZE"
+            "name": "MSVC-SANITIZE",
+            "configurePreset": "MSVC-SANITIZE"
         },
         {
-            "name": "GCC-x86-DEV",
-            "configurePreset": "GCC-x86-DEV"
+            "name": "GCC-DEV",
+            "configurePreset": "GCC-DEV"
         },
         {
-            "name": "GCC-x64-DEV",
-            "configurePreset": "GCC-x64-DEV"
+            "name": "GCC-REL",
+            "configurePreset": "GCC-REL"
         },
         {
-            "name": "GCC-x86-REL",
-            "configurePreset": "GCC-x86-REL"
+            "name": "CLANG-DEV",
+            "configurePreset": "CLANG-DEV"
         },
         {
-            "name": "GCC-x64-REL",
-            "configurePreset": "GCC-x64-REL"
-        },
-        {
-            "name": "CLANG-x86-DEV",
-            "configurePreset": "CLANG-x86-DEV"
-        },
-        {
-            "name": "CLANG-x64-DEV",
-            "configurePreset": "CLANG-x64-DEV"
-        },
-        {
-            "name": "CLANG-x86-REL",
-            "configurePreset": "CLANG-x86-REL"
-        },
-        {
-            "name": "CLANG-x64-REL",
-            "configurePreset": "CLANG-x64-REL"
+            "name": "CLANG-REL",
+            "configurePreset": "CLANG-REL"
         }
     ]
 }

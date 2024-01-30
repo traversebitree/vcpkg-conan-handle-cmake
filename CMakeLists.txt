@@ -1,14 +1,24 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include(VcpkgHandle)
-set(VCPKG_TARGET_TRIPLET "x64-windows")
+include(cmake/VcpkgHandle.cmake)
 
-project(app VERSION 1.2.3)
-enable_language(CXX)
-set(CMAKE_CXX_STANDARD 23)
-enable_testing()
+project(app LANGUAGES CXX VERSION 1.2.3)
+set(CMAKE_CXX_STANDARD 20)
+
+set(CMAKE_VISIBILITY_INLINES_HIDDEN TRUE)
+message("CMAKE_CXX_COMPILER_ID: ${CMAKE_CXX_COMPILER_ID}")
+
+if(MSVC)
+    add_compile_options(/Zc:__cplusplus /EHsc)
+endif()
+
+if(UNIX)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+endif()
+
+if(CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
+    add_compile_options("-fsanitize=address")
+endif()
+
 include(GNUInstallDirs)
-
 add_subdirectory(src)
-
 find_package(fmt CONFIG REQUIRED GLOBAL)
