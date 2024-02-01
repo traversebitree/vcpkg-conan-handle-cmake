@@ -7,7 +7,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
+env:
+  BUILD_TYPE: DEV
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -54,6 +55,16 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    - name: Set development build type
+      if: ${{ matrix.build_type == 'Debug' }}
+      run: |
+        echo "DEV" >> $env:BUILD_TYPE
+
+    - name: Set release build type
+      if: ${{ matrix.build_type == 'Release' }}
+      run: |
+        echo "REL" >> $env:BUILD_TYPE
+
     - name: Configure CMake
       working-directory: ${{ github.workspace }}
       run: |        
@@ -63,15 +74,15 @@ jobs:
       working-directory: ${{ github.workspace }}
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: |
-        cmake --build --preset "DEFAULT-DEV"
+        cmake --build --preset "DEFAULT-${{ env.BUILD_TYPE }}"
 
     - name: Install
       working-directory: ${{ github.workspace }}
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: |
-        cmake --build --preset "DEFAULT-DEV" --target "install_project"
+        cmake --build --preset "DEFAULT-${{ env.BUILD_TYPE }}" --target "install_project"
 
     - name: Execute Test
-      working-directory: ${{ github.workspace }}/.out/install/DEFAULT-DEV/bin
+      working-directory: ${{ github.workspace }}/.out/install/DEFAULT-${{ env.BUILD_TYPE }}/bin
       run: |
         ./app
