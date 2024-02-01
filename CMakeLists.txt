@@ -23,13 +23,10 @@ endif()
 
 include(GNUInstallDirs)
 add_subdirectory(src)
-find_package(
-  fmt
-  CONFIG
-  REQUIRED
-  GLOBAL)
+find_package(fmt CONFIG REQUIRED GLOBAL)
 
-install(TARGETS app RUNTIME COMPONENT "app_exe" DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS app RUNTIME COMPONENT "app_exe"
+                            DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 install(
   FILES $<TARGET_RUNTIME_DLLS:app>
@@ -39,12 +36,7 @@ install(
 if(MINGW AND ${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
   get_filename_component(mingw_path ${CMAKE_CXX_COMPILER} PATH)
   file(GLOB mingw_runtimes "${mingw_path}/*.dll")
-  list(
-    FILTER
-    mingw_runtimes
-    EXCLUDE
-    REGEX
-    "fortran")
+  list(FILTER mingw_runtimes EXCLUDE REGEX "fortran")
   set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS ${mingw_runtimes})
   install(
     PROGRAMS ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS}
@@ -72,6 +64,8 @@ endif()
 
 add_custom_target(
   install_project
-  COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "app_dll" --config "${CMAKE_BUILD_TYPE}"
-  COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "app_exe" --config "${CMAKE_BUILD_TYPE}"
+  COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "app_dll"
+          --config "${CMAKE_BUILD_TYPE}"
+  COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "app_exe"
+          --config "${CMAKE_BUILD_TYPE}"
   DEPENDS app)
