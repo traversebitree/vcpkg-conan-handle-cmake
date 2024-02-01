@@ -13,7 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.head_ref }}
 
       - name: Format CMake files
         id: cmake-format
@@ -28,7 +31,7 @@ jobs:
           inplace: True
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_user_name: cmake-clang-format-bot
           commit_message: "Automated commit of cmake-clang-format changes."
@@ -48,7 +51,7 @@ jobs:
           - { os: macos-latest, build_type: REL }
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Configure CMake
         working-directory: ${{ github.workspace }}
