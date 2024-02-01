@@ -4,7 +4,7 @@ include_guard(GLOBAL)
 cmake_host_system_information(RESULT res QUERY OS_PLATFORM)
 
 if(${res} STREQUAL "aarch64")
-  set(ENV{VCPKG_FORCE_SYSTEM_BINARIES} "arm")
+    set(ENV{VCPKG_FORCE_SYSTEM_BINARIES} "arm")
 endif()
 
 set(X_VCPKG_APPLOCAL_DEPS_INSTALL TRUE
@@ -18,33 +18,29 @@ set(_VCPKG_DOWNLOAD_DIR "${_VCPKG_ROOT_DIR}")
 set(_VCPKG_BINARY_DIR "${_VCPKG_ROOT_DIR}/vcpkg-build")
 
 if(WIN32)
-  set(_VCPKG_EXECUTEABLE "${_VCPKG_SOURCE_DIR}/vcpkg.exe")
+    set(_VCPKG_EXECUTEABLE "${_VCPKG_SOURCE_DIR}/vcpkg.exe")
 elseif(UNIX)
-  set(_VCPKG_EXECUTEABLE "${_VCPKG_SOURCE_DIR}/vcpkg")
+    set(_VCPKG_EXECUTEABLE "${_VCPKG_SOURCE_DIR}/vcpkg")
 endif()
 
 if(NOT EXISTS "${_VCPKG_EXECUTEABLE}")
-  file(REMOVE_RECURSE "${_VCPKG_ROOT_DIR}")
-  include(FetchContent)
-  message(STATUS "Fetching vcpkg ...")
-  FetchContent_Declare(
-    _vcpkg
-    GIT_REPOSITORY "https://github.com/microsoft/vcpkg.git"
-    DOWNLOAD_DIR
-    "${_VCPKG_DOWNLOAD_DIR}"
-    SOURCE_DIR
-    "${_VCPKG_SOURCE_DIR}"
-    SUBBUILD_DIR
-    "${_VCPKG_SUBBUILD_DIR}"
-    BINARY_DIR
-    "${_VCPKG_BINARY_DIR}"
-  )
-  FetchContent_MakeAvailable(_vcpkg)
+    file(REMOVE_RECURSE "${_VCPKG_ROOT_DIR}")
+    include(FetchContent)
+    message(STATUS "Fetching vcpkg ...")
+    FetchContent_Declare(
+        _vcpkg
+        GIT_REPOSITORY "https://github.com/microsoft/vcpkg.git"
+        DOWNLOAD_DIR "${_VCPKG_DOWNLOAD_DIR}"
+        SOURCE_DIR "${_VCPKG_SOURCE_DIR}"
+        SUBBUILD_DIR "${_VCPKG_SUBBUILD_DIR}"
+        BINARY_DIR "${_VCPKG_BINARY_DIR}"
+    )
+    FetchContent_MakeAvailable(_vcpkg)
 endif()
 
 if(CMAKE_GENERATOR MATCHES "MinGW")
-  set(VCPKG_HOST_TRIPLET "x64-mingw-dynamic")
-  set(MINGW TRUE)
+    set(VCPKG_HOST_TRIPLET "x64-mingw-dynamic")
+    set(MINGW TRUE)
 endif()
 
 set(VCPKG_INSTALLED_DIR "${_VCPKG_ROOT_DIR}/vcpkg-installed")
