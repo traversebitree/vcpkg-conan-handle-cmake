@@ -9,6 +9,24 @@ on:
     branches: ["master"]
 
 jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Format CMake files
+        id: cmake-format
+        uses: PuneetMatharu/cmake-format-lint-action@v1.0.4
+        with:
+          args: --config-files .cmake-format.json --in-place
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_user_name: cmake-format-bot
+          commit_message: "Automated commit of cmake-format changes."
+
   build:
     runs-on: ${{ matrix.os }}
 
