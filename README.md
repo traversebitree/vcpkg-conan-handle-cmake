@@ -22,12 +22,10 @@ You can use the following command to test in this repo.
 ```sh
 git clone https://github.com/traversebitree/vcpkg-handle-cmake.git
 cd vcpkg-handle-cmake
-# FOR MINGW
-cmake --preset="GCC-x64-REL"
-# OR FOR MSVC
-cmake --preset="MSVC-x64-REL"
-# OR FOR CLANG
-cmake --preset="CLANG-x64-REL"
+cmake --preset="DEFAULT-REL"
+cmake --build --preset "DEFAULT-REL"
+cmake --build --preset "DEFAULT-REL" --target "install_project"
+./.out/install/DEFAULT-REL/bin/app
 ```
 
 ### For usage on yourself
@@ -36,19 +34,14 @@ You need put `VcpkgHandle.cmake` to your project dir, for example, `cmake\VcpkgH
 _CMakeLists.txt_
 ```cmake
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include(VcpkgHandle)
-set(VCPKG_TARGET_TRIPLET "x64-windows")
+include(cmake/VcpkgHandle.cmake)
 
-project(app VERSION 1.2.3)
-enable_language(CXX)
-set(CMAKE_CXX_STANDARD 23)
-enable_testing()
-include(GNUInstallDirs)
-
-add_subdirectory(src)
+project(app LANGUAGES CXX VERSION 1.2.3)
+set(CMAKE_CXX_STANDARD 20)
 
 find_package(fmt CONFIG REQUIRED GLOBAL)
+add_executable(app main.cpp)
+target_link_libraries(app PRIVATE fmt::fmt)
 ```
 
 _vcpkg.json_

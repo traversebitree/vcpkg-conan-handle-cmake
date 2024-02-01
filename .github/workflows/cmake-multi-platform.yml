@@ -21,7 +21,7 @@ jobs:
         with:
           args: --config-files .cmake-format --in-place
 
-      - name: Run clang-format style check for C/C++
+      - name: Format C/C++ files
         uses: DoozyX/clang-format-lint-action@v0.17
         with:
           clangFormatVersion: 17
