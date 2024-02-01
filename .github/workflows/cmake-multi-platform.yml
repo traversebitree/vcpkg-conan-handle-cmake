@@ -40,12 +40,14 @@ jobs:
       - name: Set development build type
         if: ${{ matrix.build_type == 'Debug' }}
         run: |
-          echo "BUILD_TYPE=DEV" >> "$GITHUB_ENV"
+          # echo "BUILD_TYPE=DEV" >> "$GITHUB_ENV"
+          "$GITHUB_ENV"="BUILD_TYPE=DEV"
 
       - name: Set release build type
         if: ${{ matrix.build_type == 'Release' }}
         run: |
-          echo "BUILD_TYPE=REL" >> "$GITHUB_ENV"
+          # echo "BUILD_TYPE=REL" >> "$GITHUB_ENV"
+          "$GITHUB_ENV"="BUILD_TYPE=REL"
 
       - name: Configure CMake
         working-directory: ${{ github.workspace }}
