@@ -4,9 +4,9 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 env:
   BUILD_TYPE: DEV
 jobs:
@@ -26,69 +26,45 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         build_type: [Release, Debug]
-        c_compiler: [gcc, clang, cl]
-        include:
-          - os: windows-latest
-            c_compiler: cl
-            cpp_compiler: cl
-          - os: ubuntu-latest
-            c_compiler: gcc
-            cpp_compiler: g++
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-          - os: macos-latest
-            c_compiler: clang
-            cpp_compiler: clang++
-        exclude:
-          - os: windows-latest
-            c_compiler: gcc
-          - os: windows-latest
-            c_compiler: clang
-          - os: ubuntu-latest
-            c_compiler: cl
-          - os: macos-latest
-            c_compiler: gcc
-          - os: macos-latest
-            c_compiler: cl  
+
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set reusable strings
-      # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
-      id: strings
-      shell: bash      
-      run: |
-        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+      - name: Set reusable strings
+        # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
+        id: strings
+        shell: bash
+        run: |
+          echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Set development build type
-      if: ${{ matrix.build_type == 'Debug' }}
-      run: |
-        echo "BUILD_TYPE=DEV" >> $GITHUB_ENV
+      - name: Set development build type
+        if: ${{ matrix.build_type == 'Debug' }}
+        run: |
+          echo "BUILD_TYPE=DEV" >> "$GITHUB_ENV"
 
-    - name: Set release build type
-      if: ${{ matrix.build_type == 'Release' }}
-      run: |
-        echo "BUILD_TYPE=REL" >> $GITHUB_ENV
+      - name: Set release build type
+        if: ${{ matrix.build_type == 'Release' }}
+        run: |
+          echo "BUILD_TYPE=REL" >> "$GITHUB_ENV"
 
-    - name: Configure CMake
-      working-directory: ${{ github.workspace }}
-      run: |        
-        cmake --preset "DEFAULT-${{ env.BUILD_TYPE }}"
+      - name: Configure CMake
+        working-directory: ${{ github.workspace }}
+        run: |
+          cmake --preset "DEFAULT-${{ env.BUILD_TYPE }}"
 
-    - name: Build
-      working-directory: ${{ github.workspace }}
-      # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: |
-        cmake --build --preset "DEFAULT-${{ env.BUILD_TYPE }}"
+      - name: Build
+        working-directory: ${{ github.workspace }}
+        # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
+        run: |
+          cmake --build --preset "DEFAULT-${{ env.BUILD_TYPE }}"
 
-    - name: Install
-      working-directory: ${{ github.workspace }}
-      # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: |
-        cmake --build --preset "DEFAULT-${{ env.BUILD_TYPE }}" --target "install_project"
+      - name: Install
+        working-directory: ${{ github.workspace }}
+        # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
+        run: |
+          cmake --build --preset "DEFAULT-${{ env.BUILD_TYPE }}" --target "install_project"
 
-    - name: Execute Test
-      working-directory: ${{ github.workspace }}/.out/install/DEFAULT-${{ env.BUILD_TYPE }}/bin
-      run: |
-        ./app
+      - name: Execute Test
+        working-directory: ${{ github.workspace }}/.out/install/DEFAULT-${{ env.BUILD_TYPE }}/bin
+        run: |
+          ./app
