@@ -9,7 +9,10 @@ endif()
 
 set(X_VCPKG_APPLOCAL_DEPS_INSTALL
     TRUE
-    CACHE BOOL "Automatically copy dependencies into the install target directory for executables.")
+    CACHE
+      BOOL
+      "Automatically copy dependencies into the install target directory for executables."
+)
 set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
 set(_VCPKG_ROOT_DIR "${CMAKE_SOURCE_DIR}/.vcpkg")
 set(_VCPKG_SOURCE_DIR "${_VCPKG_ROOT_DIR}/vcpkg-src")
@@ -27,7 +30,7 @@ if(NOT EXISTS "${_VCPKG_EXECUTEABLE}")
   file(REMOVE_RECURSE "${_VCPKG_ROOT_DIR}")
   include(FetchContent)
   message(STATUS "Fetching vcpkg ...")
-  fetchcontent_declare(
+  FetchContent_Declare(
     _vcpkg
     GIT_REPOSITORY "https://github.com/microsoft/vcpkg.git"
     DOWNLOAD_DIR
@@ -38,7 +41,7 @@ if(NOT EXISTS "${_VCPKG_EXECUTEABLE}")
     "${_VCPKG_SUBBUILD_DIR}"
     BINARY_DIR
     "${_VCPKG_BINARY_DIR}")
-  fetchcontent_makeavailable(_vcpkg)
+  FetchContent_MakeAvailable(_vcpkg)
 endif()
 
 if(CMAKE_GENERATOR MATCHES "MinGW")
@@ -48,4 +51,5 @@ endif()
 
 set(VCPKG_INSTALLED_DIR "${_VCPKG_ROOT_DIR}/vcpkg-installed")
 set(Z_VCPKG_ROOT_DIR "${_VCPKG_SOURCE_DIR}")
-set(CMAKE_TOOLCHAIN_FILE "${_VCPKG_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake")
+set(CMAKE_TOOLCHAIN_FILE
+    "${_VCPKG_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake")
