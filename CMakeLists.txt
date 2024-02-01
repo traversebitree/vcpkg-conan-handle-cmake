@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 include(cmake/VcpkgHandle.cmake)
 
-project(
-  app
-  LANGUAGES CXX
-  VERSION 1.2.3)
+project(app LANGUAGES CXX VERSION 1.2.3)
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_VISIBILITY_INLINES_HIDDEN TRUE)
@@ -25,23 +22,18 @@ include(GNUInstallDirs)
 add_subdirectory(src)
 find_package(fmt CONFIG REQUIRED GLOBAL)
 
-install(TARGETS app RUNTIME COMPONENT "app_exe"
-                            DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS app RUNTIME COMPONENT "app_exe" DESTINATION ${CMAKE_INSTALL_BINDIR})
 
-install(
-  FILES $<TARGET_RUNTIME_DLLS:app>
-  COMPONENT "app_dll"
-  DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(FILES $<TARGET_RUNTIME_DLLS:app> COMPONENT "app_dll" DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 if(MINGW AND ${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
   get_filename_component(mingw_path ${CMAKE_CXX_COMPILER} PATH)
   file(GLOB mingw_runtimes "${mingw_path}/*.dll")
   list(FILTER mingw_runtimes EXCLUDE REGEX "fortran")
   set(CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS ${mingw_runtimes})
-  install(
-    PROGRAMS ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS}
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT "app_dll")
+  install(PROGRAMS ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${CMAKE_INSTALL_BINDIR}
+          COMPONENT "app_dll"
+  )
 endif()
 
 if(NOT WIN32)
@@ -59,13 +51,15 @@ if(NOT WIN32)
                 file(INSTALL ${DEP_LIB} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
                 endforeach()
                 ]]
-    COMPONENT "app_dll")
+    COMPONENT "app_dll"
+  )
 endif()
 
 add_custom_target(
   install_project
-  COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "app_dll"
-          --config "${CMAKE_BUILD_TYPE}"
-  COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "app_exe"
-          --config "${CMAKE_BUILD_TYPE}"
-  DEPENDS app)
+  COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "app_dll" --config
+          "${CMAKE_BUILD_TYPE}"
+  COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "app_exe" --config
+          "${CMAKE_BUILD_TYPE}"
+  DEPENDS app
+)
