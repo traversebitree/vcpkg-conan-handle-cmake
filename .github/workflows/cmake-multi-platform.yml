@@ -19,7 +19,7 @@ jobs:
         id: cmake-format
         uses: PuneetMatharu/cmake-format-lint-action@v1.0.4
         with:
-          args: --config-files .cmake-format --in-place
+          args: --in-place
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
