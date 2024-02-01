@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Format CMake files
         id: cmake-format
@@ -21,11 +21,16 @@ jobs:
         with:
           args: --config-files .cmake-format --in-place
 
+      - name: Run clang-format style check for C/C++/Protobuf programs
+        uses: jidicula/clang-format-action@v4.11.0
+        with:
+          clang-format-version: "17"
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_user_name: cmake-format-bot
-          commit_message: "Automated commit of cmake-format changes."
+          commit_user_name: cmake-clang-format-bot
+          commit_message: "Automated commit of cmake-clang-format changes."
 
   build:
     runs-on: ${{ matrix.os }}
