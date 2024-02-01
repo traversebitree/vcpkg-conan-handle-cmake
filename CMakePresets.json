@@ -9,8 +9,7 @@
             "name": "base",
             "hidden": true,
             "displayName": "Custom configure preset",
-            "description": "Sets Ninja generator, build and install directory",
-            "generator": "Ninja",
+            "description": "Base setting",
             "binaryDir": "${sourceDir}/.out/build/${presetName}",
             "installDir": "${sourceDir}/.out/install/${presetName}",
             "cacheVariables": {
@@ -25,6 +24,20 @@
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_MAKE_PROGRAM": "ninja"
+            }
+        },
+        {
+            "name": "mingw-generator",
+            "hidden": true,
+            "description": "Sets MinGW Makefiles generator",
+            "generator": "MinGW Makefiles",
+            "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "make"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
             }
         },
         {
@@ -76,6 +89,11 @@
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl",
                 "CMAKE_CXX_COMPILER": "cl"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
             }
         },
         {
@@ -103,6 +121,42 @@
                 "strategy": "external",
                 "value": "host=x86"
             }
+        },
+        {
+            "name": "DEFAULT-DEV",
+            "description": "DEFAULT debug build using default generator",
+            "inherits": [
+                "base",
+                "debug",
+                "x64"
+            ]
+        },
+        {
+            "name": "DEFAULT-REL",
+            "description": "DEFAULT release build using default generator",
+            "inherits": [
+                "base",
+                "release",
+                "x64"
+            ]
+        },
+        {
+            "name": "DEFAULT-DEV-X86",
+            "description": "DEFAULT debug build using default generator",
+            "inherits": [
+                "base",
+                "debug",
+                "x86"
+            ]
+        },
+        {
+            "name": "DEFAULT-REL-X86",
+            "description": "DEFAULT release build using default generator",
+            "inherits": [
+                "base",
+                "release",
+                "x86"
+            ]
         },
         {
             "name": "MSVC-DEV",
@@ -139,20 +193,48 @@
         },
         {
             "name": "GCC-DEV",
-            "description": "GCC debug build using Ninja-build generator",
+            "description": "GCC debug build",
             "inherits": [
                 "base",
-                "ninja-generator",
+                "debug",
+                "compiler-gcc"
+            ],
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "GCC-REL",
+            "description": "GCC release build",
+            "inherits": [
+                "base",
+                "release",
+                "compiler-gcc"
+            ],
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "MinGW-DEV",
+            "description": "MinGW debug build using MinGW Makefiles",
+            "inherits": [
+                "base",
+                "mingw-generator",
                 "debug",
                 "compiler-gcc"
             ]
         },
         {
-            "name": "GCC-REL",
-            "description": "GCC release build using Ninja-build generator",
+            "name": "MinGW-REL",
+            "description": "MinGW release build using MinGW Makefiles",
             "inherits": [
                 "base",
-                "ninja-generator",
+                "mingw-generator",
                 "release",
                 "compiler-gcc"
             ]
@@ -223,6 +305,20 @@
             ]
         },
         {
+            "name": "DEFAULT-DEV-X86",
+            "configurePreset": "DEFAULT-DEV-X86",
+            "inherits": [
+                "debug"
+            ]
+        },
+        {
+            "name": "DEFAULT-REL-X86",
+            "configurePreset": "DEFAULT-REL-X86",
+            "inherits": [
+                "release"
+            ]
+        },
+        {
             "name": "MSVC-DEV",
             "configurePreset": "MSVC-DEV",
             "inherits": [
@@ -258,6 +354,20 @@
             ]
         },
         {
+            "name": "MinGW-DEV",
+            "configurePreset": "MinGW-DEV",
+            "inherits": [
+                "debug"
+            ]
+        },
+        {
+            "name": "MinGW-REL",
+            "configurePreset": "MinGW-REL",
+            "inherits": [
+                "release"
+            ]
+        },
+        {
             "name": "CLANG-DEV",
             "configurePreset": "CLANG-DEV",
             "inherits": [
@@ -275,11 +385,19 @@
     "testPresets": [
         {
             "name": "DEFAULT-DEV",
-            "configurePreset": "MSVC-DEV"
+            "configurePreset": "DEFAULT-DEV"
         },
         {
             "name": "DEFAULT-REL",
-            "configurePreset": "MSVC-DEV"
+            "configurePreset": "DEFAULT-REL"
+        },
+        {
+            "name": "DEFAULT-DEV-X86",
+            "configurePreset": "DEFAULT-DEV-X86"
+        },
+        {
+            "name": "DEFAULT-REL-X86",
+            "configurePreset": "DEFAULT-REL-X86"
         },
         {
             "name": "MSVC-DEV",
@@ -300,6 +418,14 @@
         {
             "name": "GCC-REL",
             "configurePreset": "GCC-REL"
+        },
+        {
+            "name": "MinGW-DEV",
+            "configurePreset": "MinGW-DEV"
+        },
+        {
+            "name": "MinGW-REL",
+            "configurePreset": "MinGW-REL"
         },
         {
             "name": "CLANG-DEV",
