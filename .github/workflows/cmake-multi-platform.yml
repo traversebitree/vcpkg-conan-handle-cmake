@@ -7,8 +7,7 @@ on:
     branches: ["master"]
   pull_request:
     branches: ["master"]
-env:
-  BUILD_TYPE: DEV
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -25,7 +24,7 @@ jobs:
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        build_type: [Release, Debug]
+        build_type: [DEV, REL]
 
     steps:
       - uses: actions/checkout@v3
@@ -37,34 +36,24 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-      - name: Set development build type
-        if: ${{ matrix.build_type == 'Debug' }}
-        run: |          
-          "$GITHUB_ENV"="BUILD_TYPE=DEV"
-
-      - name: Set release build type
-        if: ${{ matrix.build_type == 'Release' }}
-        run: |
-          "$GITHUB_ENV"="BUILD_TYPE=REL"
-
       - name: Configure CMake
         working-directory: ${{ github.workspace }}
         run: |
-          cmake --preset "DEFAULT-${{ env.BUILD_TYPE }}"
+          cmake --preset "DEFAULT-${{ matrix.build_type }}"
 
       - name: Build
         working-directory: ${{ github.workspace }}
         # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
         run: |
-          cmake --build --preset "DEFAULT-${{ env.BUILD_TYPE }}"
+          cmake --build --preset "DEFAULT-${{ matrix.build_type }}"
 
       - name: Install
         working-directory: ${{ github.workspace }}
         # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
         run: |
-          cmake --build --preset "DEFAULT-${{ env.BUILD_TYPE }}" --target "install_project"
+          cmake --build --preset "DEFAULT-${{ matrix.build_type }}" --target "install_project"
 
       - name: Execute Test
-        working-directory: ${{ github.workspace }}/.out/install/DEFAULT-${{ env.BUILD_TYPE }}/bin
+        working-directory: ${{ github.workspace }}/.out/install/DEFAULT-${{ matrix.build_type }}/bin
         run: |
           ./app
