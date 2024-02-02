@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
     curl_easy_setopt(easyhandle, CURLOPT_WRITEFUNCTION, write_callback);
     curl_easy_setopt(easyhandle, CURLOPT_WRITEDATA, &read_buffer);
     curl_easy_perform(easyhandle);
-    fmt::print("My Ip is: {}\n", read_buffer);
+    fmt::print("My IP is: {}\n", read_buffer);
     fmt::print("ZLIB VERSION: {}\n", zlibVersion());
     return 0;
 }

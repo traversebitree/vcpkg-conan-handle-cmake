@@ -6,7 +6,9 @@ cmake_path(GET Python3_EXECUTABLE PARENT_PATH _PYTHON_ROOT_PATH)
 set(_PIP_SCRIPT_ROOT_PATH "${_PYTHON_ROOT_PATH}/Scripts")
 find_program(_CONAN_EXEC "conan" HINTS "${_PIP_SCRIPT_ROOT_PATH}")
 if(NOT EXISTS "${_CONAN_EXEC}")
-  execute_process(COMMAND ${Python3_EXECUTABLE} "-m" "pip" "install" "conan" COMMAND_ERROR_IS_FATAL LAST)
+  execute_process(
+    COMMAND ${Python3_EXECUTABLE} "-m" "pip" "install" "conan" "--no-warn-script-location" COMMAND_ERROR_IS_FATAL LAST
+  )
   find_program(_CONAN_EXEC "conan" HINTS "${_PIP_SCRIPT_ROOT_PATH}" REQUIRED)
 endif()
 
