@@ -26,7 +26,7 @@ Automatically copies the dynamic library (`.dll`) from `conan` to the same direc
 
 ### NOTICE
 - Put `VcpkgHandle.cmake` **before** `project()`.
-- Put `ConanHandle.cmake` **after** `project()`.
+- Put `ConanHandle.cmake` **after** `set(CMAKE_CXX_STANDARD <std>)`.
 - `VcpkgHandle.cmake` is paired with `vcpkg.json`. 
 - `ConanHandle.cmake` is paired with `conanfile.txt`.
 
