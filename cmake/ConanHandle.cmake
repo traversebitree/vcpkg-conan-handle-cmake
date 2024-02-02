@@ -24,7 +24,9 @@ if(NOT EXISTS "${_CONAN_PROFILE_FILE_PATH}")
   execute_process(COMMAND ${_CONAN_EXEC} "profile" "detect" COMMAND_ECHO STDOUT)
 endif()
 execute_process(
-  COMMAND ${_CONAN_EXEC} "install" "${CMAKE_CURRENT_SOURCE_DIR}" "--output-folder=${_CONAN_BUILD_ROOT_PATH}"
-          "--build=missing"
+  COMMAND
+    ${_CONAN_EXEC} "install" "${CMAKE_CURRENT_SOURCE_DIR}" "--output-folder=${_CONAN_BUILD_ROOT_PATH}"
+    "--build=missing" "--settings:host=build_type=${CMAKE_BUILD_TYPE}"
+    "--settings:build=build_type=${CMAKE_BUILD_TYPE}"
 )
 list(APPEND CMAKE_PREFIX_PATH "${_CONAN_BUILD_ROOT_PATH}")
