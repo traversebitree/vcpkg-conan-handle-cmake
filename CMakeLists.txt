@@ -3,7 +3,7 @@ include(cmake/VcpkgHandle.cmake)
 
 project(app LANGUAGES CXX VERSION 1.2.3)
 set(CMAKE_CXX_STANDARD 20)
-
+include(cmake/ConanHandle.cmake)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN TRUE)
 
 if(MSVC)
@@ -19,8 +19,12 @@ if(CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
 endif()
 
 include(GNUInstallDirs)
-add_subdirectory(src)
+
+find_package(CURL CONFIG REQUIRED GLOBAL)
 find_package(fmt CONFIG REQUIRED GLOBAL)
+find_package(ZLIB CONFIG REQUIRED GLOBAL)
+
+add_subdirectory(src)
 
 install(TARGETS app RUNTIME COMPONENT "app_exe" DESTINATION ${CMAKE_INSTALL_BINDIR})
 

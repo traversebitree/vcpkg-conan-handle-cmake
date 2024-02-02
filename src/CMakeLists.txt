@@ -1,5 +1,5 @@
 add_executable(app main.cpp)
-target_link_libraries(app PRIVATE fmt::fmt)
+target_link_libraries(app PRIVATE CURL::libcurl fmt::fmt ZLIB::ZLIB)
 
 if(WIN32)
   add_custom_command(

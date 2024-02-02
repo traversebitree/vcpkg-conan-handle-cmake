@@ -2,13 +2,18 @@
     "name": "app",
     "version-string": "0.1.0",
     "dependencies": [
+        "python3",
         "fmt"
     ],
     "builtin-baseline": "7dc284a6ad0b9cb8ccd618c8dc78c360fbd93b83",
     "overrides": [
         {
+            "name": "python3",
+            "version": "3.11.5#4"
+        },
+        {
             "name": "fmt",
-            "version": "9.1.0#1"
+            "version": "10.2.1#0"
         }
     ]
 }
