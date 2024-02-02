@@ -53,15 +53,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install build tools
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-               sudo apt install autoconf automake autoconf-archive
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-               brew install autoconf automake autoconf-archive
-          fi
-        shell: bash
-
       - name: Configure CMake
         working-directory: ${{ github.workspace }}
         run: |
