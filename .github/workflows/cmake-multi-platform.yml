@@ -49,6 +49,8 @@ jobs:
           - { os: windows-latest, build_type: REL }
           - { os: macos-latest, build_type: DEV }
           - { os: macos-latest, build_type: REL }
+          - { os: macos-14, build_type: DEV }
+          - { os: macos-14, build_type: REL }
 
     steps:
       - uses: actions/checkout@v4
