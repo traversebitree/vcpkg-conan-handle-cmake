@@ -10,7 +10,7 @@ if(NOT EXISTS "${_CONAN_EXEC}")
   if("${CMAKE_HOST_SYSTEM_NAME}" MATCHES "Darwin")
     execute_process(
       COMMAND ${Python3_EXECUTABLE} "-m" "pip" "install" "conan" "--no-warn-script-location" "--break-system-packages"
-              "${_PIP_BREAK_SYSTEM_PACKAGES}" COMMAND_ERROR_IS_FATAL LAST
+              COMMAND_ERROR_IS_FATAL LAST
     )
   else()
     execute_process(
