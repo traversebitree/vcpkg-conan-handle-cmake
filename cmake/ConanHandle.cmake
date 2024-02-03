@@ -5,10 +5,14 @@ find_package(Python3 COMPONENTS Interpreter REQUIRED)
 cmake_path(GET Python3_EXECUTABLE PARENT_PATH _PYTHON_ROOT_PATH)
 set(_PIP_SCRIPT_ROOT_PATH "${_PYTHON_ROOT_PATH}/Scripts")
 find_program(_CONAN_EXEC "conan" HINTS "${_PIP_SCRIPT_ROOT_PATH}")
+set(_PIP_BREAK_SYSTEM_PACKAGES "")
+if("${CMAKE_HOST_SYSTEM_NAME}" MATCHES "Darwin")
+  set(_PIP_BREAK_SYSTEM_PACKAGES "--break-system-packages")
+endif()
 if(NOT EXISTS "${_CONAN_EXEC}")
   execute_process(
-    COMMAND ${Python3_EXECUTABLE} "-m" "pip" "install" "conan" "--no-warn-script-location" "--break-system-packages"
-            COMMAND_ERROR_IS_FATAL LAST
+    COMMAND ${Python3_EXECUTABLE} "-m" "pip" "install" "conan" "--no-warn-script-location"
+            "${_PIP_BREAK_SYSTEM_PACKAGES}" COMMAND_ERROR_IS_FATAL LAST
   )
   find_program(_CONAN_EXEC "conan" HINTS "${_PIP_SCRIPT_ROOT_PATH}" REQUIRED)
 endif()
