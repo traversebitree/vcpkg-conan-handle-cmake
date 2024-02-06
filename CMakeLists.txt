@@ -22,6 +22,8 @@ endif()
 
 include(GNUInstallDirs)
 
+set(BUILD_SHARED_LIBS TRUE)
+
 find_package(CURL CONFIG REQUIRED GLOBAL)
 find_package(fmt CONFIG REQUIRED GLOBAL)
 find_package(ZLIB CONFIG REQUIRED GLOBAL)
