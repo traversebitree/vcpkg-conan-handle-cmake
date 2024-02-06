@@ -9,5 +9,3 @@ if(WIN32)
     COMMAND_EXPAND_LISTS
   )
 endif()
-
-set_target_properties(app PROPERTIES INSTALL_RPATH "$ORIGIN")
