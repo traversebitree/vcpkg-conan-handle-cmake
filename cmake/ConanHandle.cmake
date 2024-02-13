@@ -19,7 +19,9 @@ if(NOT EXISTS "${_VENV_PYTHON_EXEC}")
 endif()
 
 if(NOT EXISTS "${_CONAN_EXEC}")
-  execute_process(COMMAND ${_VENV_PYTHON_EXEC} "-m" "pip" "install" "conan" COMMAND_ERROR_IS_FATAL LAST)
+  execute_process(
+    COMMAND ${_VENV_PYTHON_EXEC} "-m" "pip" "install" "--ignore-installed" "conan" COMMAND_ERROR_IS_FATAL LAST
+  )
 endif()
 
 set(_CONAN_PROFILE_FILE_PATH "$ENV{CONAN_HOME}/profiles/default")
