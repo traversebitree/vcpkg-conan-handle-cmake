@@ -14,8 +14,8 @@ else()
 endif()
 
 if(NOT EXISTS "${_VENV_PYTHON_EXEC}")
-  find_package(Python3 COMPONENTS Interpreter REQUIRED)
-  execute_process(COMMAND ${Python3_EXECUTABLE} "-m" "venv" "${_VENV_ROOT_PATH}")
+  find_program(_PYTHON_EXEC "python" REQUIRED)
+  execute_process(COMMAND ${_PYTHON_EXEC} "-m" "venv" "${_VENV_ROOT_PATH}")
 endif()
 
 if(NOT EXISTS "${_CONAN_EXEC}")
