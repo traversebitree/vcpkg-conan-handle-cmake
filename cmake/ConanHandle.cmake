@@ -14,7 +14,7 @@ else()
 endif()
 
 if(NOT EXISTS "${_VENV_PYTHON_EXEC}")
-  find_program(_PYTHON_EXEC "python" REQUIRED)
+  find_program(_PYTHON_EXEC NAMES "python" "python3" REQUIRED)
   execute_process(COMMAND ${_PYTHON_EXEC} "-m" "venv" "${_VENV_ROOT_PATH}")
 endif()
 
