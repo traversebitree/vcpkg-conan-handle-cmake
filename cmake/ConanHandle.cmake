@@ -1,24 +1,25 @@
 include_guard(GLOBAL)
 set(ENV{CONAN_HOME} "${CMAKE_CURRENT_SOURCE_DIR}/.conan")
+set(_VENV_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/.venv")
 set(_CONAN_BUILD_ROOT_PATH "$ENV{CONAN_HOME}/build")
-find_package(Python3 COMPONENTS Interpreter REQUIRED)
-cmake_path(GET Python3_EXECUTABLE PARENT_PATH _PYTHON_ROOT_PATH)
-set(_PIP_SCRIPT_ROOT_PATH "${_PYTHON_ROOT_PATH}/Scripts")
-find_program(_CONAN_EXEC "conan" HINTS "${_PIP_SCRIPT_ROOT_PATH}")
+
+if(WIN32)
+  set(_VENV_PYTHON_SCRIPTS_ROOT_PATH "${_VENV_ROOT_PATH}/Scripts")
+  set(_VENV_PYTHON_EXEC "${_VENV_PYTHON_SCRIPTS_ROOT_PATH}/python.exe")
+  set(_CONAN_EXEC "${_VENV_PYTHON_SCRIPTS_ROOT_PATH}/conan.exe")
+else()
+  set(_VENV_PYTHON_SCRIPTS_ROOT_PATH "${_VENV_ROOT_PATH}/bin")
+  set(_VENV_PYTHON_EXEC "${_VENV_PYTHON_SCRIPTS_ROOT_PATH}/python")
+  set(_CONAN_EXEC "${_VENV_PYTHON_SCRIPTS_ROOT_PATH}/conan")
+endif()
+
+if(NOT EXISTS "${_VENV_PYTHON_EXEC}")
+  find_package(Python3 COMPONENTS Interpreter REQUIRED)
+  execute_process(COMMAND ${Python3_EXECUTABLE} "-m" "venv" "${_VENV_ROOT_PATH}")
+endif()
 
 if(NOT EXISTS "${_CONAN_EXEC}")
-  if("${CMAKE_HOST_SYSTEM_NAME}" MATCHES "Darwin")
-    execute_process(
-      COMMAND ${Python3_EXECUTABLE} "-m" "pip" "install" "conan" "--no-warn-script-location" "--break-system-packages"
-              COMMAND_ERROR_IS_FATAL LAST
-    )
-  else()
-    execute_process(
-      COMMAND ${Python3_EXECUTABLE} "-m" "pip" "install" "conan" "--no-warn-script-location" COMMAND_ERROR_IS_FATAL
-              LAST
-    )
-  endif()
-  find_program(_CONAN_EXEC "conan" HINTS "${_PIP_SCRIPT_ROOT_PATH}" REQUIRED)
+  execute_process(COMMAND ${_VENV_PYTHON_EXEC} "-m" "pip" "install" "conan" COMMAND_ERROR_IS_FATAL LAST)
 endif()
 
 set(_CONAN_PROFILE_FILE_PATH "$ENV{CONAN_HOME}/profiles/default")
