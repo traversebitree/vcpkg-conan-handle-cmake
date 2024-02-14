@@ -7,9 +7,10 @@ if(${res} STREQUAL "aarch64")
   set(ENV{VCPKG_FORCE_SYSTEM_BINARIES} "arm")
 endif()
 
-set(X_VCPKG_APPLOCAL_DEPS_INSTALL TRUE
-    CACHE BOOL "Automatically copy dependencies into the install target directory for executables."
+option(X_VCPKG_APPLOCAL_DEPS_INSTALL
+       "Automatically copy dependencies into the install target directory for executables." TRUE
 )
+
 set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
 set(_VCPKG_ROOT_DIR "${CMAKE_SOURCE_DIR}/.vcpkg")
 set(_VCPKG_SOURCE_DIR "${_VCPKG_ROOT_DIR}/vcpkg-src")
@@ -46,7 +47,7 @@ if(CMAKE_GENERATOR MATCHES "MinGW")
   set(MINGW TRUE)
 endif()
 
-set(VCPKG_INSTALLED_DIR "${_VCPKG_ROOT_DIR}/vcpkg-installed")
-set(Z_VCPKG_ROOT_DIR "${_VCPKG_SOURCE_DIR}")
+set(VCPKG_INSTALLED_DIR "${_VCPKG_ROOT_DIR}/vcpkg-installed" PARENT_SCOPE)
+set(Z_VCPKG_ROOT_DIR "${_VCPKG_SOURCE_DIR}" PARENT_SCOPE)
 set(CMAKE_TOOLCHAIN_FILE "${_VCPKG_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake" PARENT_SCOPE)
 endblock()
