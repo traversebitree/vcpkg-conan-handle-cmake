@@ -1,4 +1,5 @@
 include_guard(GLOBAL)
+block(PROPAGATE CMAKE_PREFIX_PATH)
 set(ENV{CONAN_HOME} "${CMAKE_CURRENT_SOURCE_DIR}/.conan")
 set(_VENV_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/.venv")
 set(_CONAN_BUILD_ROOT_PATH "$ENV{CONAN_HOME}/build")
@@ -36,3 +37,4 @@ execute_process(
     "--settings:build=compiler.cppstd=${CMAKE_CXX_STANDARD}" COMMAND_ERROR_IS_FATAL LAST
 )
 list(APPEND CMAKE_PREFIX_PATH "${_CONAN_BUILD_ROOT_PATH}")
+endblock()
