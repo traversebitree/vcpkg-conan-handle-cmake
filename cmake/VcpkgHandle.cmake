@@ -1,6 +1,6 @@
 # Put this before project() !!!
 include_guard(GLOBAL)
-
+block()
 cmake_host_system_information(RESULT res QUERY OS_PLATFORM)
 
 if(${res} STREQUAL "aarch64")
@@ -48,4 +48,5 @@ endif()
 
 set(VCPKG_INSTALLED_DIR "${_VCPKG_ROOT_DIR}/vcpkg-installed")
 set(Z_VCPKG_ROOT_DIR "${_VCPKG_SOURCE_DIR}")
-set(CMAKE_TOOLCHAIN_FILE "${_VCPKG_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake")
+set(CMAKE_TOOLCHAIN_FILE "${_VCPKG_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake" PARENT_SCOPE)
+endblock()
