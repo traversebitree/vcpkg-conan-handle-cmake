@@ -3,9 +3,9 @@ include_guard(GLOBAL)
 block()
 cmake_host_system_information(RESULT res QUERY OS_PLATFORM)
 
-if(${res} STREQUAL "aarch64")
-  set(ENV{VCPKG_FORCE_SYSTEM_BINARIES} "arm")
-endif()
+# if(${res} STREQUAL "aarch64")
+#   set(ENV{VCPKG_FORCE_SYSTEM_BINARIES} "arm")
+# endif()
 
 option(X_VCPKG_APPLOCAL_DEPS_INSTALL
        "Automatically copy dependencies into the install target directory for executables." TRUE
