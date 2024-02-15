@@ -48,13 +48,14 @@ if(NOT WIN32)
                 file(GET_RUNTIME_DEPENDENCIES
                 RESOLVED_DEPENDENCIES_VAR RESOLVED_DEPS
                 UNRESOLVED_DEPENDENCIES_VAR UNRESOLVED_DEPS
+                EXECUTABLES $<TARGET_FILE:app>
                 LIBRARIES $<TARGET_FILE:app>
                 DIRECTORIES $<TARGET_FILE_DIR:app>
                 PRE_INCLUDE_REGEXES $<TARGET_FILE_DIR:app>
                 POST_INCLUDE_REGEXES $<TARGET_FILE_DIR:app>
                 )
                 foreach(DEP_LIB ${RESOLVED_DEPS})
-                file(INSTALL ${DEP_LIB} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+                file(INSTALL ${DEP_LIB} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin FOLLOW_SYMLINK_CHAIN)
                 endforeach()
                 ]]
     COMPONENT "app_dll"
