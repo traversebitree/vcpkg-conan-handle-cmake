@@ -3,9 +3,19 @@ include_guard(GLOBAL)
 block()
 cmake_host_system_information(RESULT res QUERY OS_PLATFORM)
 
-# if(${res} STREQUAL "aarch64")
-#   set(ENV{VCPKG_FORCE_SYSTEM_BINARIES} "arm")
-# endif()
+cmake_host_system_information(RESULT _MACHINE_HARDWARE_NAME QUERY OS_PLATFORM)
+string(TOLOWER "${_MACHINE_HARDWARE_NAME}" _MACHINE_HARDWARE_NAME_LOWER)
+
+if((_MACHINE_HARDWARE_NAME_LOWER MATCHES "^arm"
+    OR _MACHINE_HARDWARE_NAME_LOWER MATCHES "^aarch64"
+    OR _MACHINE_HARDWARE_NAME_LOWER MATCHES "^s390x"
+    OR _MACHINE_HARDWARE_NAME_LOWER MATCHES "^ppc64"
+   )
+   AND NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows"
+   AND NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin"
+)
+  set(ENV{VCPKG_FORCE_SYSTEM_BINARIES} TRUE)
+endif()
 
 option(X_VCPKG_APPLOCAL_DEPS_INSTALL
        "Automatically copy dependencies into the install target directory for executables." TRUE
