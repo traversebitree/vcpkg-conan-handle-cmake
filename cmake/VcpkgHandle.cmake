@@ -1,7 +1,6 @@
 # Put this before project() !!!
 include_guard(GLOBAL)
 block()
-cmake_host_system_information(RESULT res QUERY OS_PLATFORM)
 
 cmake_host_system_information(RESULT _MACHINE_HARDWARE_NAME QUERY OS_PLATFORM)
 string(TOLOWER "${_MACHINE_HARDWARE_NAME}" _MACHINE_HARDWARE_NAME_LOWER)
@@ -21,8 +20,11 @@ option(X_VCPKG_APPLOCAL_DEPS_INSTALL
        "Automatically copy dependencies into the install target directory for executables." TRUE
 )
 
-set(__TEMP_FILE "${CMAKE_BINARY_DIR}/tmp.txt")
-set(_VCPKG_ROOT_DIR "${CMAKE_SOURCE_DIR}/.vcpkg")
+set(__TEMP_FILE "${CMAKE_CURRENT_BINARY_DIR}/tmp.txt")
+set(_VCPKG_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}/.vcpkg")
+if(DEFINED VCPKG_CACHE_LOCATION)
+  set(_VCPKG_ROOT_DIR "${VCPKG_CACHE_LOCATION}")
+endif()
 set(_VCPKG_SOURCE_DIR "${_VCPKG_ROOT_DIR}/vcpkg-src")
 set(_VCPKG_SUBBUILD_DIR "${_VCPKG_ROOT_DIR}/vcpkg-subbuild")
 set(_VCPKG_DOWNLOAD_DIR "${_VCPKG_ROOT_DIR}")
