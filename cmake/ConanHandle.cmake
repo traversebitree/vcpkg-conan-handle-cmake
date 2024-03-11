@@ -1,7 +1,12 @@
 include_guard(GLOBAL)
 block(PROPAGATE CMAKE_PREFIX_PATH)
 set(ENV{CONAN_HOME} "${CMAKE_CURRENT_SOURCE_DIR}/.conan")
-set(_VENV_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/.venv")
+if(DEFINED CONAN_CACHE_LOCATION)
+  set(ENV{CONAN_HOME} "${CONAN_CACHE_LOCATION}")
+endif()
+set(_CONAN_HOME $ENV{CONAN_HOME})
+cmake_path(GET _CONAN_HOME PARENT_PATH _CONAN_HOME_PARENT_PATH)
+set(_VENV_ROOT_PATH "${_CONAN_HOME_PARENT_PATH}/.venv")
 set(_CONAN_BUILD_ROOT_PATH "$ENV{CONAN_HOME}/build")
 
 if(WIN32)
@@ -37,7 +42,7 @@ execute_process(
     ${_CONAN_EXEC} "install" "${CMAKE_CURRENT_SOURCE_DIR}" "--output-folder=${_CONAN_BUILD_ROOT_PATH}"
     "--build=missing" "--settings:host=build_type=${CMAKE_BUILD_TYPE}"
     "--settings:host=compiler.cppstd=${CMAKE_CXX_STANDARD}" "--settings:build=build_type=${CMAKE_BUILD_TYPE}"
-    "--settings:build=compiler.cppstd=${CMAKE_CXX_STANDARD}" COMMAND_ERROR_IS_FATAL LAST
+    "--settings:build=compiler.cppstd=${CMAKE_CXX_STANDARD}" "--deployer" "direct_deploy" COMMAND_ERROR_IS_FATAL LAST
 )
 list(APPEND CMAKE_PREFIX_PATH "${_CONAN_BUILD_ROOT_PATH}")
 endblock()
