@@ -17,6 +17,9 @@ function(install_target)
   foreach(tgt IN ITEMS ${${prefix}_EXEs})
     install_exe(${tgt})
   endforeach()
+  foreach(asset_dir IN ITEMS ${${prefix}_ASSETs})
+    install_assets(${asset_dir})
+  endforeach()
 endfunction()
 
 macro(install_exe tgt)
@@ -36,13 +39,14 @@ macro(install_exe tgt)
         file(GET_RUNTIME_DEPENDENCIES
             RESOLVED_DEPENDENCIES_VAR RESOLVED_DEPS
             UNRESOLVED_DEPENDENCIES_VAR UNRESOLVED_DEPS
+            EXECUTABLES $<TARGET_FILE:${tgt}>
             LIBRARIES $<TARGET_FILE:${tgt}>
             DIRECTORIES $<TARGET_FILE_DIR:${tgt}>
             PRE_INCLUDE_REGEXES $<TARGET_FILE_DIR:${tgt}>
             POST_INCLUDE_REGEXES $<TARGET_FILE_DIR:${tgt}>
         )
         foreach(DEP_LIB \${RESOLVED_DEPS})
-            file(INSTALL \${DEP_LIB} DESTINATION \${CMAKE_INSTALL_PREFIX}/bin)
+            file(INSTALL \${DEP_LIB} DESTINATION \${CMAKE_INSTALL_PREFIX}/bin FOLLOW_SYMLINK_CHAIN)
         endforeach()
                   "
       COMPONENT "${tgt}_dll"
@@ -53,10 +57,15 @@ macro(install_exe tgt)
     install_${tgt}
     COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "${tgt}_dll" --config "${CMAKE_BUILD_TYPE}"
     COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "${tgt}_exe" --config "${CMAKE_BUILD_TYPE}"
+    COMMAND ${CMAKE_COMMAND} --install ${CMAKE_BINARY_DIR} --component "assets" --config "${CMAKE_BUILD_TYPE}"
     DEPENDS ${tgt}
   )
 endmacro()
 
 macro(install_assets asset_dir)
-  install(DIRECTORY "${asset_dir}" COMPONENT "assets" DESTINATION ${CMAKE_INSTALL_BINDIR})
+  if(IS_DIRECTORY "${asset_dir}")
+    install(DIRECTORY "${asset_dir}" COMPONENT "assets" DESTINATION ${CMAKE_INSTALL_BINDIR})
+  else()
+    install(FILES "${asset_dir}" COMPONENT "assets" DESTINATION ${CMAKE_INSTALL_BINDIR})
+  endif()
 endmacro()

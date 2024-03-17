@@ -68,7 +68,7 @@ jobs:
       - name: Install
         working-directory: ${{ github.workspace }}
         run: |
-          cmake --build --preset "DEFAULT-${{ matrix.build_type }}" --target "install_project"
+          cmake --build --preset "DEFAULT-${{ matrix.build_type }}" --target "install_app"
 
       - name: Execute Test
         working-directory: ${{ github.workspace }}/.out/install/DEFAULT-${{ matrix.build_type }}/bin

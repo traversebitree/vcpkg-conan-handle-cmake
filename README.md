@@ -17,7 +17,7 @@ It is not necessary to use both modules at the same time, if you want to use onl
 
 ## REQUIREMENTS
 - CMake (version >= 3.25.0)
-- Python3 (version >= 3.6) (* only for `conan`)
+- Python3 (version >= 3.6) (* only used for `conan`)
 
 ## TODO
 Automatically copies the dynamic library (`.dll`) from `conan` to the same directory as the corresponding executable.
@@ -37,7 +37,7 @@ git clone https://github.com/traversebitree/vcpkg-handle-cmake.git
 cd vcpkg-handle-cmake
 cmake --preset="DEFAULT-REL"
 cmake --build --preset "DEFAULT-REL"
-cmake --build --preset "DEFAULT-REL" --target "install_project"
+cmake --build --preset "DEFAULT-REL" --target "install_app"
 ./.out/install/DEFAULT-REL/bin/app
 ```
 

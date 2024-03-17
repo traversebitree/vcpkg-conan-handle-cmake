@@ -94,32 +94,10 @@
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
-            }
-        },
-        {
-            "name": "x64",
-            "description": "64bit build (on windows)",
-            "hidden": true,
+            },
             "architecture": {
                 "value": "x64",
                 "strategy": "external"
-            },
-            "toolset": {
-                "strategy": "external",
-                "value": "host=x64"
-            }
-        },
-        {
-            "name": "x86",
-            "description": "32bit build (on windows)",
-            "hidden": true,
-            "architecture": {
-                "value": "x86",
-                "strategy": "external"
-            },
-            "toolset": {
-                "strategy": "external",
-                "value": "host=x86"
             }
         },
         {
@@ -127,8 +105,7 @@
             "description": "DEFAULT debug build using default generator",
             "inherits": [
                 "base",
-                "debug",
-                "x64"
+                "debug"
             ]
         },
         {
@@ -136,26 +113,7 @@
             "description": "DEFAULT release build using default generator",
             "inherits": [
                 "base",
-                "release",
-                "x64"
-            ]
-        },
-        {
-            "name": "DEFAULT-DEV-X86",
-            "description": "DEFAULT debug build using default generator",
-            "inherits": [
-                "base",
-                "debug",
-                "x86"
-            ]
-        },
-        {
-            "name": "DEFAULT-REL-X86",
-            "description": "DEFAULT release build using default generator",
-            "inherits": [
-                "base",
-                "release",
-                "x86"
+                "release"
             ]
         },
         {
@@ -165,8 +123,7 @@
                 "base",
                 "ninja-generator",
                 "debug",
-                "compiler-msvc",
-                "x64"
+                "compiler-msvc"
             ]
         },
         {
@@ -176,8 +133,7 @@
                 "base",
                 "ninja-generator",
                 "release",
-                "compiler-msvc",
-                "x64"
+                "compiler-msvc"
             ]
         },
         {
@@ -187,8 +143,7 @@
                 "base",
                 "ninja-generator",
                 "sanitize",
-                "compiler-msvc",
-                "x64"
+                "compiler-msvc"
             ]
         },
         {
@@ -305,20 +260,6 @@
             ]
         },
         {
-            "name": "DEFAULT-DEV-X86",
-            "configurePreset": "DEFAULT-DEV-X86",
-            "inherits": [
-                "debug"
-            ]
-        },
-        {
-            "name": "DEFAULT-REL-X86",
-            "configurePreset": "DEFAULT-REL-X86",
-            "inherits": [
-                "release"
-            ]
-        },
-        {
             "name": "MSVC-DEV",
             "configurePreset": "MSVC-DEV",
             "inherits": [
@@ -390,14 +331,6 @@
         {
             "name": "DEFAULT-REL",
             "configurePreset": "DEFAULT-REL"
-        },
-        {
-            "name": "DEFAULT-DEV-X86",
-            "configurePreset": "DEFAULT-DEV-X86"
-        },
-        {
-            "name": "DEFAULT-REL-X86",
-            "configurePreset": "DEFAULT-REL-X86"
         },
         {
             "name": "MSVC-DEV",
