@@ -44,9 +44,11 @@ string(TOLOWER "${_COMPILER_ID}" _COMPILER_ID)
 execute_process(
   COMMAND
     ${_CONAN_EXEC} "install" "${CMAKE_CURRENT_SOURCE_DIR}" "--output-folder=${_CONAN_BUILD_ROOT_PATH}"
-    "--build=missing" "--settings:host=build_type=${CMAKE_BUILD_TYPE}"
-    "--settings:host=compiler.cppstd=${CMAKE_CXX_STANDARD}" "--settings:build=build_type=${CMAKE_BUILD_TYPE}"
-    "--settings:build=compiler.cppstd=${CMAKE_CXX_STANDARD}" "--deployer" "direct_deploy" COMMAND_ERROR_IS_FATAL LAST
+    "--build=missing" "--settings:host=build_type=${CMAKE_BUILD_TYPE}" "--settings:host=compiler=${_COMPILER_ID}"
+    "--settings:build=compiler=${_COMPILER_ID}" "--settings:host=compiler.cppstd=${CMAKE_CXX_STANDARD}"
+    "--settings:build=build_type=${CMAKE_BUILD_TYPE}" "--settings:build=compiler.cppstd=${CMAKE_CXX_STANDARD}"
+    "--deployer" "direct_deploy" COMMAND_ERROR_IS_FATAL LAST
 )
+
 list(APPEND CMAKE_PREFIX_PATH "${_CONAN_BUILD_ROOT_PATH}")
 endblock()
