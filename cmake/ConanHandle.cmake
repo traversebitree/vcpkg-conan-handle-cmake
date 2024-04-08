@@ -37,6 +37,10 @@ set(_CONAN_PROFILE_FILE_PATH "$ENV{CONAN_HOME}/profiles/default")
 if(NOT EXISTS "${_CONAN_PROFILE_FILE_PATH}")
   execute_process(COMMAND ${_CONAN_EXEC} "profile" "detect" COMMAND_ERROR_IS_FATAL LAST)
 endif()
+
+set(_COMPILER_ID "${CMAKE_CXX_COMPILER_ID}")
+string(TOLOWER "${_COMPILER_ID}" _COMPILER_ID)
+
 execute_process(
   COMMAND
     ${_CONAN_EXEC} "install" "${CMAKE_CURRENT_SOURCE_DIR}" "--output-folder=${_CONAN_BUILD_ROOT_PATH}"
