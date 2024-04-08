@@ -43,6 +43,8 @@ string(TOLOWER "${_COMPILER_ID}" _COMPILER_ID)
 
 if(_COMPILER_ID MATCHES "^gnu")
   set(_COMPILER_ID "gcc")
+elseif(_COMPILER_ID MATCHES "^appleclang")
+  set(_COMPILER_ID "apple-clang")
 endif()
 
 execute_process(
