@@ -43,7 +43,7 @@ if(DEFINED CMAKE_CXX_COMPILER_ID)
   set(_COMPILER_VERSION ${CMAKE_CXX_COMPILER_VERSION})
 else()
   if(NOT DEFINED CMAKE_C_COMPILER_ID)
-      message(FATAL_ERROR "C or C++ compiler not defined")
+    message(FATAL_ERROR "C or C++ compiler not defined")
   endif()
   set(_COMPILER ${CMAKE_C_COMPILER_ID})
   set(_COMPILER_VERSION ${CMAKE_C_COMPILER_VERSION})
@@ -72,7 +72,7 @@ execute_process(
     "--build=missing" "--settings:host=build_type=${CMAKE_BUILD_TYPE}" "--settings:host=compiler=${_COMPILER}"
     "--settings:build=compiler=${_COMPILER}" "--settings:host=compiler.cppstd=${CMAKE_CXX_STANDARD}"
     "--settings:build=compiler.version=${_COMPILER_VERSION}" "--settings:host=compiler.version=${_COMPILER_VERSION}"
-    "--settings:build=build_type=${CMAKE_BUILD_TYPE}" "--settings:build=compiler.cppstd=${CMAKE_CXX_STANDARD}"    
+    "--settings:build=build_type=${CMAKE_BUILD_TYPE}" "--settings:build=compiler.cppstd=${CMAKE_CXX_STANDARD}"
     "--deployer" "direct_deploy" COMMAND_ERROR_IS_FATAL LAST
 )
 
