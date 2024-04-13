@@ -38,21 +38,41 @@ if(NOT EXISTS "${_CONAN_PROFILE_FILE_PATH}")
   execute_process(COMMAND ${_CONAN_EXEC} "profile" "detect" COMMAND_ERROR_IS_FATAL LAST)
 endif()
 
-set(_COMPILER_ID "${CMAKE_CXX_COMPILER_ID}")
-string(TOLOWER "${_COMPILER_ID}" _COMPILER_ID)
+if(DEFINED CMAKE_CXX_COMPILER_ID)
+  set(_COMPILER ${CMAKE_CXX_COMPILER_ID})
+  set(_COMPILER_VERSION ${CMAKE_CXX_COMPILER_VERSION})
+else()
+  if(NOT DEFINED CMAKE_C_COMPILER_ID)
+      message(FATAL_ERROR "C or C++ compiler not defined")
+  endif()
+  set(_COMPILER ${CMAKE_C_COMPILER_ID})
+  set(_COMPILER_VERSION ${CMAKE_C_COMPILER_VERSION})
+endif()
 
-if(_COMPILER_ID MATCHES "^gnu")
-  set(_COMPILER_ID "gcc")
-elseif(_COMPILER_ID MATCHES "^appleclang")
-  set(_COMPILER_ID "apple-clang")
+if(_COMPILER MATCHES MSVC)
+  set(_COMPILER "msvc")
+  string(SUBSTRING ${MSVC_VERSION} 0 3 _COMPILER_VERSION)
+elseif(_COMPILER MATCHES AppleClang)
+  set(_COMPILER "apple-clang")
+  string(REPLACE "." ";" VERSION_LIST ${CMAKE_CXX_COMPILER_VERSION})
+  list(GET VERSION_LIST 0 _COMPILER_VERSION)
+elseif(_COMPILER MATCHES Clang)
+  set(_COMPILER "clang")
+  string(REPLACE "." ";" VERSION_LIST ${CMAKE_CXX_COMPILER_VERSION})
+  list(GET VERSION_LIST 0 _COMPILER_VERSION)
+elseif(_COMPILER MATCHES GNU)
+  set(_COMPILER "gcc")
+  string(REPLACE "." ";" VERSION_LIST ${CMAKE_CXX_COMPILER_VERSION})
+  list(GET VERSION_LIST 0 _COMPILER_VERSION)
 endif()
 
 execute_process(
   COMMAND
     ${_CONAN_EXEC} "install" "${CMAKE_CURRENT_SOURCE_DIR}" "--output-folder=${_CONAN_BUILD_ROOT_PATH}"
-    "--build=missing" "--settings:host=build_type=${CMAKE_BUILD_TYPE}" "--settings:host=compiler=${_COMPILER_ID}"
-    "--settings:build=compiler=${_COMPILER_ID}" "--settings:host=compiler.cppstd=${CMAKE_CXX_STANDARD}"
-    "--settings:build=build_type=${CMAKE_BUILD_TYPE}" "--settings:build=compiler.cppstd=${CMAKE_CXX_STANDARD}"
+    "--build=missing" "--settings:host=build_type=${CMAKE_BUILD_TYPE}" "--settings:host=compiler=${_COMPILER}"
+    "--settings:build=compiler=${_COMPILER}" "--settings:host=compiler.cppstd=${CMAKE_CXX_STANDARD}"
+    "--settings:build=compiler.version=${_COMPILER_VERSION}" "--settings:host=compiler.version=${_COMPILER_VERSION}"
+    "--settings:build=build_type=${CMAKE_BUILD_TYPE}" "--settings:build=compiler.cppstd=${CMAKE_CXX_STANDARD}"    
     "--deployer" "direct_deploy" COMMAND_ERROR_IS_FATAL LAST
 )
 
