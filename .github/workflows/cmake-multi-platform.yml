@@ -10,7 +10,7 @@ on:
 
 jobs:
   pre-commit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -43,14 +43,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { os: ubuntu-latest, build_type: DEV }
-          - { os: ubuntu-latest, build_type: REL }
-          - { os: windows-latest, build_type: DEV }
-          - { os: windows-latest, build_type: REL }
+          - { os: ubuntu-24.04, build_type: DEV }
+          - { os: ubuntu-24.04, build_type: REL }
+          - { os: windows-2022, build_type: DEV }
+          - { os: windows-2022, build_type: REL }
           - { os: macos-latest, build_type: DEV }
           - { os: macos-latest, build_type: REL }
-          - { os: macos-14, build_type: DEV }
-          - { os: macos-14, build_type: REL }
+          - { os: macos-12, build_type: DEV }
+          - { os: macos-12, build_type: REL }
 
     steps:
       - uses: actions/checkout@v4
